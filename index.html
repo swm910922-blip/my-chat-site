@@ -12,23 +12,6 @@ body{
   font-family:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR","PingFang TC","Microsoft JhengHei",sans-serif;
 }
 .wrap{display:flex;flex-direction:column;align-items:center;gap:18px}
-.tabs{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center}
-.tabs button{
-  background:#1c1c22;color:#9a9aa5;border:1px solid #2a2a33;
-  padding:8px 20px;border-radius:999px;font-size:13px;cursor:pointer;
-  transition:.18s;font-family:inherit;
-}
-.tabs button.on{background:#fff;color:#111;border-color:#fff}
-.trans-toggle,.narr-toggle{
-  background:#1c1c22;color:#9a9aa5;border:1px solid #2a2a33;
-  padding:8px 16px;border-radius:999px;font-size:13px;cursor:pointer;
-  transition:.18s;font-family:inherit;display:flex;align-items:center;gap:6px;
-}
-.trans-toggle.on{background:#4C8BF5;color:#fff;border-color:#4C8BF5}
-.narr-toggle.on{background:#a06cff;color:#fff;border-color:#a06cff}
-.trans-toggle .dot,.narr-toggle .dot{width:8px;height:8px;border-radius:50%;background:#4a4a55;transition:.18s}
-.trans-toggle.on .dot,.narr-toggle.on .dot{background:#fff}
-
 .phone{
   width:390px;height:780px;border-radius:40px;overflow:hidden;
   display:flex;flex-direction:column;position:relative;
@@ -52,7 +35,6 @@ body{
   --strip-bg:rgba(255,255,255,.05);
 }
 
-/* ============ Header ============ */
 .hdr{
   flex:0 0 auto;background:var(--hdr-bg);color:var(--hdr-fg);
   display:flex;align-items:center;gap:10px;
@@ -68,19 +50,11 @@ body{
 .hdr .gear{font-size:17px;cursor:pointer;opacity:.55;margin-left:2px;padding:4px;border-radius:50%;transition:.18s}
 .hdr .gear:hover{opacity:1;background:rgba(128,128,128,.15)}
 
-/* ============ 好感度條 ============ */
 .aff-strip{
-  flex:0 0 auto;
-  background:var(--strip-bg);
+  flex:0 0 auto;background:var(--strip-bg);
   border-bottom:1px solid rgba(128,128,128,.14);
-  padding:6px 14px;
-  cursor:pointer;
-  transition:.25s;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  user-select:none;
-  overflow:hidden;
+  padding:6px 14px;cursor:pointer;transition:.25s;
+  display:flex;align-items:center;gap:10px;user-select:none;overflow:hidden;
 }
 .aff-strip:hover{background:rgba(128,128,128,.08)}
 .aff-strip.collapsed{padding:6px 14px}
@@ -90,126 +64,54 @@ body{
 .aff-strip:not(.collapsed) .aff-stage-small{display:none}
 .aff-strip:not(.collapsed){padding:10px 14px 12px}
 .aff-strip:not(.collapsed) .aff-ring{width:52px;height:52px}
-
-.aff-ring{
-  position:relative;
-  flex:0 0 auto;
-  transition:width .25s, height .25s;
-}
+.aff-ring{position:relative;flex:0 0 auto;transition:width .25s, height .25s}
 .aff-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.aff-ring circle{
-  fill:none;
-  stroke-width:4;
-  transition:stroke-dashoffset .6s ease, stroke .5s ease;
-}
+.aff-ring circle{fill:none;stroke-width:4;transition:stroke-dashoffset .6s ease, stroke .5s ease}
 .aff-ring .bg{stroke:rgba(128,128,128,.22)}
 .aff-ring .fill{stroke-linecap:round}
-.aff-center{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:800;
-}
+.aff-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:800}
 .aff-strip:not(.collapsed) .aff-center{font-size:14px}
 .aff-strip.collapsed .aff-center{font-size:9px}
 .phone.kakao .aff-center{color:#2a3a48}
 .phone.ig .aff-center{color:#fff}
-
-.aff-stage-small{
-  font-size:12px;font-weight:700;
-  margin-left:2px;
-}
-
-.aff-detail{
-  flex:1;
-  min-width:0;
-  line-height:1.35;
-}
-.aff-detail .line1{
-  font-size:12px;
-  font-weight:700;
-  margin-bottom:2px;
-}
+.aff-stage-small{font-size:12px;font-weight:700;margin-left:2px}
+.aff-detail{flex:1;min-width:0;line-height:1.35}
+.aff-detail .line1{font-size:12px;font-weight:700;margin-bottom:2px}
 .phone.kakao .aff-detail .line1{color:#2a3a48}
 .phone.ig .aff-detail .line1{color:#fff}
-.aff-detail .line2{
-  font-size:10.5px;
-  opacity:.65;
-}
+.aff-detail .line2{font-size:10.5px;opacity:.65}
 .phone.kakao .aff-detail .line2{color:#4a5a68}
 .phone.ig .aff-detail .line2{color:#9a9aa5}
-.aff-chevron{
-  font-size:11px;opacity:.5;
-  transition:transform .25s;
-}
+.aff-chevron{font-size:11px;opacity:.5;transition:transform .25s}
 .aff-strip.collapsed .aff-chevron{transform:rotate(-90deg)}
 .aff-strip:not(.collapsed) .aff-chevron{transform:rotate(90deg)}
 
-/* ============ 旁白預覽（固定頂部，淺灰底） ============ */
 .narr-bar{
-  flex:0 0 auto;
-  background:#e6e6e8;
+  flex:0 0 auto;background:#e6e6e8;
   border-bottom:1px solid rgba(150,150,150,.25);
-  padding:7px 12px;
-  display:flex;
-  align-items:flex-start;
-  gap:8px;
-  cursor:pointer;
-  transition:.2s;
-  position:relative;
-  z-index:5;
+  padding:7px 12px;display:flex;align-items:flex-start;gap:8px;
+  cursor:pointer;transition:.2s;position:relative;z-index:5;
 }
 .narr-bar:hover{background:#dcdce0}
-.narr-bar-icon{
-  flex:0 0 auto;
-  font-size:12px;
-  padding-top:1px;
-  opacity:.7;
-  color:#666;
-}
+.narr-bar-icon{flex:0 0 auto;font-size:12px;padding-top:1px;opacity:.7;color:#666}
 .narr-bar-text{
-  flex:1;
-  min-width:0;
-  font-family:"PingFang TC","Microsoft JhengHei",serif;
-  font-size:10.5px;
-  line-height:1.5;
-  color:#3a3a3a;
-  font-style:italic;
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-  text-align:justify;
+  flex:1;min-width:0;font-family:"PingFang TC","Microsoft JhengHei",serif;
+  font-size:10.5px;line-height:1.5;color:#3a3a3a;font-style:italic;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;text-align:justify;
 }
 .narr-bar-mood{
-  font-size:9px;
-  padding:2px 7px;
-  border-radius:999px;
-  font-weight:700;
-  font-style:normal;
-  flex:0 0 auto;
-  letter-spacing:.05em;
+  font-size:9px;padding:2px 7px;border-radius:999px;font-weight:700;
+  font-style:normal;flex:0 0 auto;letter-spacing:.05em;
 }
-.narr-bar-btn{
-  flex:0 0 auto;
-  display:flex;
-  gap:4px;
-  align-items:center;
-}
+.narr-bar-btn{flex:0 0 auto;display:flex;gap:4px;align-items:center}
 .narr-bar-btn .btn{
-  background:transparent;
-  border:1px solid rgba(120,120,120,.45);
-  color:#555;
-  border-radius:999px;
-  padding:3px 9px;
-  font-size:10px;
-  cursor:pointer;
-  font-family:inherit;
-  transition:.15s;
-  font-weight:600;
+  background:transparent;border:1px solid rgba(120,120,120,.45);
+  color:#555;border-radius:999px;padding:3px 9px;font-size:10px;
+  cursor:pointer;font-family:inherit;transition:.15s;font-weight:600;
 }
 .narr-bar-btn .btn:hover{background:rgba(120,120,120,.15)}
 
-/* 情緒標籤顏色 */
 .m-tense {background:rgba(255,90,90,.18);color:#d84a4a}
 .m-warm  {background:rgba(255,160,80,.2);color:#c47a2a}
 .m-sweet {background:rgba(255,110,180,.18);color:#c94a86}
@@ -219,11 +121,9 @@ body{
 .m-loss  {background:rgba(120,80,160,.18);color:#8a5ec0}
 .m-angry {background:rgba(220,60,60,.2);color:#c03030}
 
-/* ============ 聊天區 ============ */
 .chat{
   flex:1;background:var(--bg);overflow-y:auto;
-  padding:16px 12px 24px;display:flex;flex-direction:column;
-  position:relative;
+  padding:16px 12px 24px;display:flex;flex-direction:column;position:relative;
 }
 .chat::-webkit-scrollbar{width:0}
 
@@ -238,9 +138,8 @@ body{
 .line{display:flex;align-items:flex-end;gap:6px}
 .row.player .line{flex-direction:row-reverse}
 .bubble{
-  padding:9px 13px;border-radius:18px;
-  font-size:14px;line-height:1.45;word-break:break-word;
-  background:var(--npc-bg);color:var(--npc-fg);
+  padding:9px 13px;border-radius:18px;font-size:14px;line-height:1.45;
+  word-break:break-word;background:var(--npc-bg);color:var(--npc-fg);
   box-shadow:0 1px 2px rgba(0,0,0,.07);
 }
 .row.player .bubble{background:var(--me-bg);color:var(--me-fg)}
@@ -253,12 +152,10 @@ body{
 .st-unread{color:#e8a33d;font-weight:600}
 .typing{font-size:12px;color:var(--hdr-sub);padding:6px 12px;font-style:italic}
 
-/* ============ 輸入區 ============ */
 .composer{
   flex:0 0 auto;background:var(--composer-bg);
   padding:10px 12px 18px;display:flex;gap:8px;align-items:center;
-  border-top:1px solid rgba(128,128,128,.16);
-  position:relative;
+  border-top:1px solid rgba(128,128,128,.16);position:relative;
 }
 .composer input{
   flex:1;background:var(--input-bg);border:none;outline:none;
@@ -268,27 +165,15 @@ body{
 .composer input::placeholder{color:#8e8e8e}
 .composer button{
   background:var(--accent);color:#111;border:none;border-radius:20px;
-  padding:11px 18px;font-size:13px;font-weight:700;cursor:pointer;
-  font-family:inherit;
+  padding:11px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;
 }
 .phone.ig .composer button{color:#fff}
 
-/* ============ 好感度浮動 ============ */
 .aff-float{
-  position:absolute;
-  left:50%;
-  top:-8px;
-  transform:translateX(-50%);
-  pointer-events:none;
-  font-size:15px;
-  font-weight:800;
-  padding:6px 14px;
-  border-radius:999px;
-  background:rgba(0,0,0,.72);
-  color:#fff;
-  opacity:0;
-  z-index:100;
-  white-space:nowrap;
+  position:absolute;left:50%;top:-8px;transform:translateX(-50%);
+  pointer-events:none;font-size:15px;font-weight:800;
+  padding:6px 14px;border-radius:999px;background:rgba(0,0,0,.72);
+  color:#fff;opacity:0;z-index:100;white-space:nowrap;
 }
 .aff-float.show{animation:affFloat 1.5s ease forwards}
 .aff-float.plus{color:#7ee0a8}
@@ -300,15 +185,10 @@ body{
   100%{opacity:0;transform:translate(-50%, -70px) scale(.9)}
 }
 
-/* ============ 旁白展開覆蓋層 ============ */
 .narr-overlay{
-  position:absolute;
-  inset:0;
+  position:absolute;inset:0;
   background:linear-gradient(180deg,#1a1a2e 0%,#16213e 100%);
-  z-index:200;
-  display:none;
-  flex-direction:column;
-  animation:overlayIn .3s ease;
+  z-index:200;display:none;flex-direction:column;animation:overlayIn .3s ease;
 }
 .narr-overlay.show{display:flex}
 @keyframes overlayIn{
@@ -316,169 +196,80 @@ body{
   to{opacity:1;transform:translateY(0)}
 }
 .narr-overlay-head{
-  flex:0 0 auto;
-  padding:18px 20px 14px;
+  flex:0 0 auto;padding:18px 20px 14px;
   border-bottom:1px solid rgba(255,255,255,.08);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  color:#fff;
+  display:flex;align-items:center;justify-content:space-between;color:#fff;
 }
 .narr-overlay-head h3{
-  font-size:14px;
-  font-weight:700;
-  letter-spacing:.1em;
-  color:#c0a0ff;
+  font-size:14px;font-weight:700;letter-spacing:.1em;color:#c0a0ff;
   font-family:"PingFang TC","Microsoft JhengHei",sans-serif;
 }
 .narr-overlay-close{
-  background:transparent;
-  border:1px solid rgba(255,255,255,.2);
-  color:#fff;
-  border-radius:999px;
-  padding:5px 14px;
-  font-size:12px;
-  cursor:pointer;
-  font-family:inherit;
-  transition:.15s;
+  background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff;
+  border-radius:999px;padding:5px 14px;font-size:12px;
+  cursor:pointer;font-family:inherit;transition:.15s;
 }
 .narr-overlay-close:hover{background:rgba(255,255,255,.1)}
 .narr-overlay-body{
-  flex:1;
-  overflow-y:auto;
-  padding:20px 24px 28px;
-  color:#e0d8f0;
-  font-family:"PingFang TC","Microsoft JhengHei","Noto Serif TC","Georgia",serif;
-  font-size:13.5px;
-  line-height:1.85;
-  letter-spacing:.02em;
-  text-align:justify;
+  flex:1;overflow-y:auto;padding:20px 24px 28px;
+  color:#e0d8f0;font-family:"PingFang TC","Microsoft JhengHei","Noto Serif TC","Georgia",serif;
+  font-size:13.5px;line-height:1.85;letter-spacing:.02em;text-align:justify;
 }
 .narr-overlay-body::-webkit-scrollbar{width:6px}
 .narr-overlay-body::-webkit-scrollbar-thumb{background:rgba(160,108,255,.4);border-radius:3px}
-.narr-overlay-body::-webkit-scrollbar-track{background:transparent}
-.narr-overlay-body p{
-  margin:0 0 0.85em 0;
-  text-indent:2em;
-}
+.narr-overlay-body p{margin:0 0 0.85em 0;text-indent:2em}
 .narr-overlay-body p:last-child{margin-bottom:0}
 .narr-overlay-meta{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:18px;
-  padding-bottom:14px;
-  border-bottom:1px dashed rgba(160,108,255,.3);
+  display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  padding-bottom:14px;border-bottom:1px dashed rgba(160,108,255,.3);
 }
-.narr-overlay-meta .time{
-  font-size:11px;
-  color:#8a8aa5;
+.narr-overlay-meta .time,.narr-overlay-meta .wc{
+  font-size:11px;color:#8a8aa5;
   font-family:"PingFang TC","Microsoft JhengHei",sans-serif;
 }
-.narr-overlay-meta .wc{
-  font-size:11px;
-  color:#8a8aa5;
-  margin-left:auto;
-  font-family:"PingFang TC","Microsoft JhengHei",sans-serif;
-}
+.narr-overlay-meta .wc{margin-left:auto}
 
-/* ============ 旁白歷史抽屜 ============ */
 .hist-drawer{
-  position:absolute;
-  top:0;right:0;bottom:0;
-  width:85%;
-  max-width:340px;
-  background:#14141c;
-  z-index:300;
-  transform:translateX(100%);
+  position:absolute;top:0;right:0;bottom:0;width:85%;max-width:340px;
+  background:#14141c;z-index:300;transform:translateX(100%);
   transition:transform .3s cubic-bezier(.2,.9,.3,1);
-  display:flex;
-  flex-direction:column;
-  box-shadow:-10px 0 40px rgba(0,0,0,.5);
+  display:flex;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.5);
 }
 .hist-drawer.show{transform:translateX(0)}
 .hist-head{
-  flex:0 0 auto;
-  padding:16px 18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  color:#fff;
-  border-bottom:1px solid #26262e;
+  flex:0 0 auto;padding:16px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  color:#fff;border-bottom:1px solid #26262e;
 }
 .hist-head h3{
-  font-size:13px;
-  font-weight:700;
-  letter-spacing:.1em;
-  color:#c0a0ff;
+  font-size:13px;font-weight:700;letter-spacing:.1em;color:#c0a0ff;
   font-family:"PingFang TC","Microsoft JhengHei",sans-serif;
 }
 .hist-close{
-  background:transparent;
-  border:none;
-  color:#8e8e8e;
-  font-size:20px;
-  cursor:pointer;
-  padding:0 6px;
-  font-family:inherit;
+  background:transparent;border:none;color:#8e8e8e;
+  font-size:20px;cursor:pointer;padding:0 6px;font-family:inherit;
 }
 .hist-close:hover{color:#fff}
-.hist-body{
-  flex:1;
-  overflow-y:auto;
-  padding:12px 12px 20px;
-}
+.hist-body{flex:1;overflow-y:auto;padding:12px 12px 20px}
 .hist-body::-webkit-scrollbar{width:5px}
 .hist-body::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
 .hist-empty{
-  text-align:center;
-  color:#666;
-  font-size:12px;
-  padding:40px 20px;
-  line-height:1.7;
+  text-align:center;color:#666;font-size:12px;padding:40px 20px;line-height:1.7;
 }
 .hist-item{
-  background:#1c1c22;
-  border:1px solid #2a2a33;
-  border-radius:10px;
-  padding:12px;
-  margin-bottom:10px;
-  cursor:pointer;
-  transition:.15s;
+  background:#1c1c22;border:1px solid #2a2a33;border-radius:10px;
+  padding:12px;margin-bottom:10px;cursor:pointer;transition:.15s;
 }
-.hist-item:hover{
-  background:#222229;
-  border-color:#4C8BF5;
-}
-.hist-item-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:7px;
-}
-.hist-item-time{
-  font-size:10.5px;
-  color:#8e8e8e;
-  font-family:"PingFang TC","Microsoft JhengHei",sans-serif;
-}
+.hist-item:hover{background:#222229;border-color:#4C8BF5}
+.hist-item-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.hist-item-time{font-size:10.5px;color:#8e8e8e;font-family:"PingFang TC","Microsoft JhengHei",sans-serif}
 .hist-item-text{
-  font-size:11px;
-  color:#bcbcc4;
-  line-height:1.55;
-  display:-webkit-box;
-  -webkit-line-clamp:3;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-  font-family:"PingFang TC","Microsoft JhengHei",sans-serif;
+  font-size:11px;color:#bcbcc4;line-height:1.55;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;
+  overflow:hidden;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;
 }
-.hist-item-num{
-  font-size:10px;
-  color:#666;
-  margin-top:6px;
-  font-family:"PingFang TC","Microsoft JhengHei",sans-serif;
-}
+.hist-item-num{font-size:10px;color:#666;margin-top:6px;font-family:"PingFang TC","Microsoft JhengHei",sans-serif}
 
-/* ============ 開始畫面 ============ */
 .start-screen{
   flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:40px 24px;text-align:center;gap:14px;animation:fadeIn .5s ease;
@@ -517,7 +308,6 @@ body{
   to{opacity:1;transform:translateY(0)}
 }
 
-/* ============ 彈窗 ============ */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:999;padding:20px}
 .modal-bg.show{display:flex}
 .modal{background:#1c1c22;border:1px solid #2a2a33;border-radius:16px;padding:22px;width:100%;max-width:420px;color:#fff;max-height:90vh;overflow-y:auto}
@@ -548,7 +338,6 @@ body{
 .test-result.err{background:rgba(255,90,90,.12);color:#ff9a9a;border:1px solid rgba(255,90,90,.3)}
 .test-result.loading{background:rgba(255,255,255,.06);color:#ccc;border:1px solid rgba(255,255,255,.1)}
 .modal .tip{font-size:11px;color:#8e8e8e;margin-top:10px;line-height:1.5}
-.modal .tip a{color:#8ec5ff;text-decoration:none}
 .char-section{background:#141419;border:1px solid #26262e;border-radius:12px;padding:14px;margin-top:14px}
 .char-section.highlight{border-color:#3a3a48;background:#181820}
 .char-section h4{font-size:13px;color:#fff;margin-bottom:12px;font-weight:600;display:flex;align-items:center;gap:8px}
@@ -561,8 +350,7 @@ body{
 .avatar-row{display:flex;align-items:center;gap:14px;margin-bottom:12px}
 .avatar-preview{
   width:60px;height:60px;border-radius:50%;flex:0 0 auto;
-  background-size:cover;background-position:center;
-  border:2px solid #2a2a33;
+  background-size:cover;background-position:center;border:2px solid #2a2a33;
   display:flex;align-items:center;justify-content:center;
   font-size:11px;color:#555;cursor:pointer;transition:.15s;
 }
@@ -577,11 +365,11 @@ body{
 .avatar-actions .danger{color:#ff8888}
 .avatar-actions .danger:hover{color:#ff5555}
 .file-input-hidden{display:none}
-.modal-tabs{display:flex;gap:6px;margin-bottom:16px;border-bottom:1px solid #2a2a33;padding-bottom:0}
+.modal-tabs{display:flex;gap:6px;margin-bottom:16px;border-bottom:1px solid #2a2a33;padding-bottom:0;flex-wrap:wrap}
 .modal-tabs button{
-  background:none;border:none;color:#8e8e8e;font-size:13px;cursor:pointer;
-  padding:8px 12px;font-family:inherit;position:relative;bottom:-1px;
-  border-bottom:2px solid transparent;transition:.15s;
+  background:none;border:none;color:#8e8e8e;font-size:12.5px;cursor:pointer;
+  padding:8px 10px;font-family:inherit;position:relative;bottom:-1px;
+  border-bottom:2px solid transparent;transition:.15s;white-space:nowrap;
 }
 .modal-tabs button.on{color:#fff;border-bottom-color:#4C8BF5}
 .modal-tab-content{display:none}
@@ -607,22 +395,45 @@ body{
 }
 .style-chips button:hover{border-color:#a06cff;color:#c0a0ff}
 .style-chips button.on{background:#a06cff;color:#fff;border-color:#a06cff}
+
+/* 開關列（介面設定用） */
+.toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 0;border-bottom:1px solid #26262e;
+}
+.toggle-row:last-of-type{border-bottom:none}
+.toggle-row .lbl{font-size:13px;color:#ddd}
+.toggle-row .lbl .desc{display:block;font-size:10.5px;color:#666;margin-top:2px}
+.toggle-row .switch{
+  width:44px;height:24px;border-radius:999px;background:#2a2a33;
+  position:relative;cursor:pointer;transition:.2s;flex:0 0 auto;
+}
+.toggle-row .switch::after{
+  content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;
+  border-radius:50%;background:#888;transition:.2s;
+}
+.toggle-row .switch.on{background:#4C8BF5}
+.toggle-row .switch.on::after{left:22px;background:#fff}
+.toggle-row .switch.purple.on{background:#a06cff}
+.platform-choice{display:flex;gap:8px;margin-top:6px}
+.platform-choice button{
+  flex:1;background:#0b0b0e;border:1px solid #2a2a33;color:#9a9aa5;
+  padding:10px;border-radius:10px;font-size:12.5px;cursor:pointer;
+  font-family:inherit;transition:.15s;
+}
+.platform-choice button:hover{border-color:#4C8BF5;color:#8ec5ff}
+.platform-choice button.on{background:#4C8BF5;color:#fff;border-color:#4C8BF5}
+.danger-btn{
+  background:rgba(255,90,90,.12);border:1px solid rgba(255,90,90,.35);
+  color:#ff9a9a;padding:11px;border-radius:10px;font-size:13px;
+  cursor:pointer;font-family:inherit;width:100%;transition:.15s;
+  font-weight:600;margin-top:8px;
+}
+.danger-btn:hover{background:rgba(255,90,90,.2)}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="tabs">
-    <button id="tabKakao" class="on">KakaoTalk</button>
-    <button id="tabIg">Instagram DM</button>
-    <button id="transToggle" class="trans-toggle on">
-      <span class="dot"></span><span id="transLabel">번역 ON</span>
-    </button>
-    <button id="narrToggle" class="narr-toggle on">
-      <span class="dot"></span><span id="narrLabel">劇情 ON</span>
-    </button>
-    <button id="restartBtn" style="background:#2a2a33;color:#ff9a9a">↻ 重新開始</button>
-  </div>
-
   <div class="phone kakao" id="phone">
     <div id="hdrSlot"></div>
     <div class="aff-strip collapsed" id="affStrip" style="display:none"></div>
@@ -653,11 +464,13 @@ body{
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <div class="modal-tabs">
-      <button class="on" data-tab="api">伺服器設定</button>
-      <button data-tab="chars">角色 · 關係設定</button>
+      <button class="on" data-tab="api">伺服器</button>
+      <button data-tab="ui">介面</button>
+      <button data-tab="chars">角色 · 關係</button>
       <button data-tab="drama">劇情引擎</button>
     </div>
 
+    <!-- 伺服器 -->
     <div class="modal-tab-content on" id="tab-api">
       <label>模型選擇</label>
       <select id="modelSelect">
@@ -683,6 +496,40 @@ body{
       <div class="tip">✅ API Key 已安全地保存在伺服器上。</div>
     </div>
 
+    <!-- 介面（新） -->
+    <div class="modal-tab-content" id="tab-ui">
+      <div class="char-section highlight" style="margin-top:0">
+        <h4>平台 <span class="badge purple">PLATFORM</span></h4>
+        <div class="platform-choice" id="platformChoice">
+          <button data-p="kakao">KakaoTalk</button>
+          <button data-p="ig">Instagram DM</button>
+        </div>
+      </div>
+
+      <div class="char-section highlight">
+        <h4>顯示選項 <span class="badge purple">DISPLAY</span></h4>
+        <div class="toggle-row">
+          <span class="lbl">翻譯
+            <span class="desc">顯示繁體中文翻譯</span>
+          </span>
+          <div class="switch" id="swTranslation"></div>
+        </div>
+        <div class="toggle-row">
+          <span class="lbl">劇情
+            <span class="desc">顯示文遊旁白</span>
+          </span>
+          <div class="switch purple" id="swNarrative"></div>
+        </div>
+      </div>
+
+      <div class="char-section highlight">
+        <h4>故事 <span class="badge purple">STORY</span></h4>
+        <button class="danger-btn" id="btnRestart">↻ 重新開始（清空對話）</button>
+        <div class="field-hint">角色設定會保留，只清空對話與好感度。</div>
+      </div>
+    </div>
+
+    <!-- 角色 -->
     <div class="modal-tab-content" id="tab-chars">
       <div class="char-section highlight">
         <h4>關係與背景 <span class="badge pink">RELATION</span></h4>
@@ -704,7 +551,7 @@ body{
         <label>目前時間線 / 劇情進度</label><textarea id="relTimeline"></textarea>
         <label>目前場景</label><input type="text" id="relScene">
         <label>重要事件記錄</label><textarea id="relEvents"></textarea>
-        <label>好感度 / 關係階段（文字描述，AI 參考用）</label><input type="text" id="relAffinity" placeholder="例：曖昧後期">
+        <label>好感度 / 關係階段（文字描述）</label><input type="text" id="relAffinity">
         <label>當前衝突 / 未解的懸念</label><textarea id="relConflict"></textarea>
       </div>
       <div class="char-section">
@@ -747,8 +594,9 @@ body{
       </div>
     </div>
 
+    <!-- 劇情引擎 -->
     <div class="modal-tab-content" id="tab-drama">
-      <div class="char-section highlight">
+      <div class="char-section highlight" style="margin-top:0">
         <h4>戲劇強度 <span class="badge purple">DRAMA</span></h4>
         <div class="intensity-row">
           <input type="range" id="dramaIntensity" min="1" max="10" step="1" value="6">
@@ -787,7 +635,7 @@ body{
 
 <script>
 /* ============================================================
-   1. 預設值
+   預設值
    ============================================================ */
 const DEFAULT_NPC = {
   name: '박지민', username: 'jimin_0fficial', avatar: null,
@@ -809,7 +657,6 @@ const DEFAULT_DRAMA = {
   narrAction: true, narrInner: true, narrSensory: true, narrForeshadow: true
 };
 
-/* 好感度階段 */
 const STAGES = [
   { name: '熟人', max: 20, color: '#7a8fa6' },
   { name: '朋友', max: 40, color: '#7ed8a0' },
@@ -838,10 +685,10 @@ function avatarStyle(ch) {
 }
 
 /* ============================================================
-   2. 狀態
+   狀態
    ============================================================ */
 let MESSAGES = [];
-let platform = 'kakao';
+let platform = localStorage.getItem('platform') || 'kakao';
 let isTyping = false;
 let isOpening = false;
 let showTranslation = localStorage.getItem('showTranslation') !== 'off';
@@ -911,7 +758,7 @@ function getAllNarratives() {
 }
 
 /* ============================================================
-   3. 好感度條渲染
+   好感度條
    ============================================================ */
 function renderAffStrip() {
   const strip = document.getElementById('affStrip');
@@ -938,9 +785,7 @@ function renderAffStrip() {
         <svg viewBox="0 0 40 40">
           <circle class="bg" cx="20" cy="20" r="${r}"/>
           <circle class="fill" cx="20" cy="20" r="${r}"
-            stroke="${stageColor}"
-            stroke-dasharray="${c}"
-            stroke-dashoffset="${offset}"/>
+            stroke="${stageColor}" stroke-dasharray="${c}" stroke-dashoffset="${offset}"/>
         </svg>
         <div class="aff-center">${affection}</div>
       </div>
@@ -956,9 +801,7 @@ function renderAffStrip() {
         <svg viewBox="0 0 40 40">
           <circle class="bg" cx="20" cy="20" r="${r}"/>
           <circle class="fill" cx="20" cy="20" r="${r}"
-            stroke="${stageColor}"
-            stroke-dasharray="${c}"
-            stroke-dashoffset="${offset}"/>
+            stroke="${stageColor}" stroke-dasharray="${c}" stroke-dashoffset="${offset}"/>
         </svg>
       </div>
       <div class="aff-stage-small" style="color:${stageColor}">${stage.name}</div>
@@ -984,7 +827,7 @@ function showAffFloat(delta) {
 }
 
 /* ============================================================
-   4. 旁白面板
+   旁白面板
    ============================================================ */
 function renderNarrBar() {
   const bar = document.getElementById('narrBar');
@@ -1009,12 +852,10 @@ function renderNarrBar() {
   `;
 
   document.getElementById('narrExpandBtn').onclick = e => {
-    e.stopPropagation();
-    openNarrOverlay(latest.id);
+    e.stopPropagation(); openNarrOverlay(latest.id);
   };
   document.getElementById('narrHistBtn').onclick = e => {
-    e.stopPropagation();
-    openHistDrawer();
+    e.stopPropagation(); openHistDrawer();
   };
 }
 
@@ -1046,7 +887,7 @@ function openHistDrawer() {
   const narrs = getAllNarratives().reverse();
 
   if (!narrs.length) {
-    body.innerHTML = `<div class="hist-empty">還沒有旁白記錄<br>開始對話後會在這裡顯示</div>`;
+    body.innerHTML = `<div class="hist-empty">還沒有旁白記錄</div>`;
   } else {
     body.innerHTML = narrs.map((n, i) => {
       const mood = n.mood ? `<span class="narr-bar-mood m-${n.mood}" style="font-size:9px;padding:1px 6px">${moodLabel(n.mood)}</span>` : '';
@@ -1078,7 +919,7 @@ document.getElementById('histClose').onclick = () => {
 };
 
 /* ============================================================
-   5. 渲染
+   渲染
    ============================================================ */
 function render() {
   const npc = getNPC();
@@ -1097,21 +938,11 @@ function render() {
       <div class="gear" id="gearBtn" title="設定">⚙️</div>
     </header>`;
 
-  const toggle = document.getElementById('transToggle');
-  const label = document.getElementById('transLabel');
-  if (showTranslation) { toggle.classList.add('on'); label.textContent = '번역 ON'; }
-  else { toggle.classList.remove('on'); label.textContent = '번역 OFF'; }
-
-  const nToggle = document.getElementById('narrToggle');
-  const nLabel = document.getElementById('narrLabel');
-  if (showNarrative) { nToggle.classList.add('on'); nLabel.textContent = '劇情 ON'; }
-  else { nToggle.classList.remove('on'); nLabel.textContent = '劇情 OFF'; }
+  renderAffStrip();
+  renderNarrBar();
 
   const chat = document.getElementById('chat');
   const composer = document.getElementById('composer');
-
-  renderAffStrip();
-  renderNarrBar();
 
   if (!storyStarted) {
     composer.style.display = 'none';
@@ -1181,7 +1012,7 @@ function render() {
 }
 
 /* ============================================================
-   6. 開始故事
+   開始故事
    ============================================================ */
 async function startStory() {
   const npc = getNPC();
@@ -1192,12 +1023,10 @@ async function startStory() {
   render();
 
   try {
-    const ai = await callAI('（這是故事的開場。請依照所有設定，寫出一段開場白：先用 500-600 字的第三人稱小說敘事建立情境，讓玩家感覺到「故事即將展開」，最後由 ' + npc.name + ' 主動發送第一條訊息給玩家。好感度請回傳 0，這是開場。）', true);
-
+    const ai = await callAI('【系統指令】請生成這個故事的開場。', true);
     if (ai) {
       MESSAGES.push({
-        id: 'opening' + Date.now(),
-        side: 'npc', time: nowTime(),
+        id: 'opening' + Date.now(), side: 'npc', time: nowTime(),
         kr: ai.kr, zh: ai.zh, narr: ai.narr, mood: ai.mood
       });
       saveStory();
@@ -1212,7 +1041,7 @@ async function startStory() {
 }
 
 /* ============================================================
-   7. 彈窗
+   彈窗
    ============================================================ */
 const modalBg = document.getElementById('modalBg');
 const modelSelect = document.getElementById('modelSelect');
@@ -1224,7 +1053,7 @@ function openModal() {
   testResult.className = 'test-result'; testResult.textContent = '';
   pendingNPC = getNPC(); pendingPlayer = getPlayer();
   pendingRel = getRel(); pendingDrama = getDrama();
-  fillCharForm(); fillDramaForm();
+  fillCharForm(); fillDramaForm(); syncUITab();
   modalBg.classList.add('show');
 }
 function closeModal() { modalBg.classList.remove('show'); }
@@ -1238,6 +1067,47 @@ document.querySelectorAll('.modal-tabs button').forEach(btn => {
     document.getElementById('tab-' + btn.dataset.tab).classList.add('on');
   };
 });
+
+/* 介面設定 tab 同步 */
+function syncUITab() {
+  document.querySelectorAll('#platformChoice button').forEach(b => {
+    b.classList.toggle('on', b.dataset.p === platform);
+  });
+  document.getElementById('swTranslation').classList.toggle('on', showTranslation);
+  document.getElementById('swNarrative').classList.toggle('on', showNarrative);
+}
+
+document.querySelectorAll('#platformChoice button').forEach(b => {
+  b.onclick = () => {
+    platform = b.dataset.p;
+    localStorage.setItem('platform', platform);
+    syncUITab();
+    render();
+  };
+});
+
+document.getElementById('swTranslation').onclick = () => {
+  showTranslation = !showTranslation;
+  localStorage.setItem('showTranslation', showTranslation ? 'on' : 'off');
+  syncUITab();
+  render();
+};
+
+document.getElementById('swNarrative').onclick = () => {
+  showNarrative = !showNarrative;
+  localStorage.setItem('showNarrative', showNarrative ? 'on' : 'off');
+  syncUITab();
+  render();
+};
+
+document.getElementById('btnRestart').onclick = () => {
+  if (!confirm('確定要清空對話、重新開始故事嗎？（角色設定會保留）')) return;
+  MESSAGES = []; storyStarted = false; affection = 0;
+  localStorage.removeItem('story_state');
+  localStorage.setItem('affection', '0');
+  closeModal();
+  render();
+};
 
 document.getElementById('btnSaveApi').onclick = () => {
   localStorage.setItem('openai_model', modelSelect.value);
@@ -1275,7 +1145,6 @@ function showTest(type, text) {
   testResult.textContent = text;
 }
 
-/* 表單 */
 function fillCharForm() {
   document.getElementById('relSummary').value = pendingRel.summary || '';
   document.getElementById('relAddress').value = pendingRel.address || '';
@@ -1452,16 +1321,8 @@ document.getElementById('btnResetChars').onclick = () => {
   fillCharForm(); fillDramaForm(); render();
 };
 
-document.getElementById('restartBtn').onclick = () => {
-  if (!confirm('確定要清空對話、重新開始故事嗎？（角色設定會保留）')) return;
-  MESSAGES = []; storyStarted = false; affection = 0;
-  localStorage.removeItem('story_state');
-  localStorage.setItem('affection', '0');
-  render();
-};
-
 /* ============================================================
-   8. AI 呼叫
+   AI 呼叫（重寫版，修正複述問題）
    ============================================================ */
 async function callAI(userMessage, opening = false) {
   const model = localStorage.getItem('openai_model') || 'gpt-4o-mini';
@@ -1474,20 +1335,38 @@ async function callAI(userMessage, opening = false) {
   const style = drama.style || '浪漫';
 
   let sys = '';
-  sys += `# 你的身份\n`;
+
+  /* ========== 身份說明（放最前面，最重要） ========== */
+  sys += `# 【最優先規則】\n`;
   sys += `你是一位「文字遊戲主持人」，同時扮演角色「${npc.name}」。\n`;
-  sys += `你要寫出 500-600 字小說敘事旁白，以及「${npc.name}」在聊天室裡發出的訊息。\n\n`;
+  sys += `玩家扮演的角色是「${player.name}」。\n\n`;
+  sys += `⚠️ 你正在「扮演 ${npc.name}」和玩家對話，不是翻譯機、不是聊天機器人、不是回聲。\n`;
+  sys += `⚠️ 玩家說的每一句話都是「玩家說的話」，不是你要說的話。\n`;
+  sys += `⚠️ 你絕對不可以複述、改寫、翻譯玩家的話。\n`;
+  sys += `⚠️ 你的 [CHAT] 必須是「${npc.name} 作為角色會給出的回應」，內容要跟玩家的話有關，但用你自己的語氣、立場、情緒回應。\n\n`;
 
-  sys += `# 你扮演的角色\n你是「${npc.name}」。\n`;
-  if (npc.persona) sys += `【性格】${npc.persona}\n`;
-  if (npc.phrases) sys += `【口頭禪】${npc.phrases}\n`;
-  if (npc.forbidden) sys += `【禁止事項】${npc.forbidden}\n`;
+  /* ========== 範例 ========== */
+  sys += `# 【正確 vs 錯誤示範】\n`;
+  sys += `假設玩家說：「今天上班好累」\n\n`;
+  if (lang === 'zh') {
+    sys += `❌ 錯誤（複述玩家）：[CHAT]今天上班好累\n`;
+    sys += `✅ 正確（以 ${npc.name} 身份回應）：[CHAT]怎麼了？是不是又被主管唸了？\n\n`;
+  } else {
+    sys += `❌ 錯誤（複述玩家）：[CHAT]오늘 출근 너무 힘들었어|今天上班好累\n`;
+    sys += `✅ 正確（以 ${npc.name} 身份回應）：[CHAT]왜? 또 팀장한테 혼났어?|怎麼了？又被主管唸了？\n\n`;
+  }
 
-  sys += `\n# 對話對象\n對方是「${player.name}」。\n`;
-  if (player.persona) sys += `【對方設定】${player.persona}\n`;
+  /* ========== 角色設定 ========== */
+  sys += `# 【你扮演的角色：${npc.name}】\n`;
+  if (npc.persona) sys += `· 性格 / 說話風格：${npc.persona}\n`;
+  if (npc.phrases) sys += `· 口頭禪 / 常用語：${npc.phrases}\n`;
+  if (npc.forbidden) sys += `· 禁止事項（絕對不能做 / 說）：${npc.forbidden}\n`;
+
+  sys += `\n# 【玩家角色：${player.name}】\n`;
+  if (player.persona) sys += `· 玩家設定：${player.persona}\n`;
 
   if (rel.type || rel.summary || rel.address || rel.story) {
-    sys += `\n# 關係與背景\n`;
+    sys += `\n# 【兩人的關係與背景】\n`;
     if (rel.type)    sys += `· 關係類型：${rel.type}\n`;
     if (rel.summary) sys += `· 關係摘要：${rel.summary}\n`;
     if (rel.address) sys += `· 稱呼方式：${rel.address}\n`;
@@ -1495,7 +1374,7 @@ async function callAI(userMessage, opening = false) {
   }
 
   if (rel.timeline || rel.scene || rel.events || rel.affinity) {
-    sys += `\n# 目前狀態\n`;
+    sys += `\n# 【目前狀態】\n`;
     if (rel.timeline) sys += `· 時間線：${rel.timeline}\n`;
     if (rel.scene)    sys += `· 場景：${rel.scene}\n`;
     if (rel.events)   sys += `· 重要事件：\n${rel.events}\n`;
@@ -1503,35 +1382,34 @@ async function callAI(userMessage, opening = false) {
   }
 
   if (rel.conflict) {
-    sys += `\n# 當前衝突 / 未解的懸念\n${rel.conflict}\n`;
+    sys += `\n# 【當前衝突 / 未解的懸念】\n${rel.conflict}\n`;
     sys += `敘事中請讓這些懸念隱隱浮現，透過語氣、停頓、暗示讓玩家察覺「有事」。\n`;
   }
 
   if (npc.secret && drama.narrForeshadow !== false) {
-    sys += `\n# ${npc.name}的秘密 / 隱藏動機（角色不會主動說）\n${npc.secret}\n`;
+    sys += `\n# 【${npc.name} 的秘密 / 隱藏動機（角色不會主動說）】\n${npc.secret}\n`;
     sys += `請在敘事中埋下伏筆，讓玩家察覺「好像有事」，但不明說。\n`;
   }
 
-  if (rel.branches) sys += `\n# 劇情分支 / 結局條件\n${rel.branches}\n`;
+  if (rel.branches) sys += `\n# 【劇情分支 / 結局條件】\n${rel.branches}\n`;
 
   /* 好感度 */
-  sys += `\n# 好感度系統\n`;
+  sys += `\n# 【好感度系統】\n`;
   sys += `目前好感度：${affection} / 100（階段：${getStageName(affection)}）\n`;
-  sys += `請根據玩家訊息判斷好感度變化：\n`;
+  sys += `根據玩家訊息判斷好感度變化：\n`;
   sys += `· 溫暖、關心、符合角色喜好 → +1 到 +3\n`;
   sys += `· 冷淡、拒絕、違反角色禁忌 → -1 到 -3\n`;
   sys += `· 特殊事件（告白、爭吵、送禮、道歉）→ ±5 到 ±10\n`;
   sys += `· 一般閒聊 → 0\n`;
-  sys += `請在 [AFFECTION] 標籤中回傳一個整數。\n`;
 
-  sys += `\n# 戲劇強度（1~10）：${inten}\n`;
+  sys += `\n# 【戲劇強度（1~10）：${inten}】\n`;
   if (inten <= 2) sys += `極低。日常、平淡、生活感。\n`;
   else if (inten <= 4) sys += `偏低。日常為主，可以有一點小情緒。\n`;
   else if (inten <= 6) sys += `中等。要有情緒起伏，可出現欲言又止、語氣轉變、突然沉默。\n`;
   else if (inten <= 8) sys += `高。要有明顯戲劇張力。可出現吵架、吃醋、告白、迴避、態度冷淡。\n`;
   else sys += `極高。隨時可能發生重大事件。情緒爆發、決裂、意外、秘密被揭穿。\n`;
 
-  sys += `\n# 劇情風格：${style}\n`;
+  sys += `\n# 【劇情風格：${style}】\n`;
   const styleGuide = {
     '日常': '自然、生活感、小細節。', '浪漫': '曖昧、心跳、若有似無的距離感。',
     '虐心': '痛感、遺憾、錯過、言不由衷。', '懸疑': '不安感、疑點、蛛絲馬跡。',
@@ -1544,41 +1422,37 @@ async function callAI(userMessage, opening = false) {
     sys += `\n# 【這是故事的開場】\n`;
     sys += `· 建立情境、氛圍、時間、地點、人物狀態。\n`;
     sys += `· 讓玩家感覺「故事即將展開」，留一點懸念或期待。\n`;
-    sys += `· ${npc.name}主動發送第一條訊息給玩家。\n`;
+    sys += `· ${npc.name} 主動發送第一條訊息給玩家（問候、分享、吐槽、或開場話題）。\n`;
     sys += `· 開場的好感度請回傳 0。\n`;
   }
 
   sys += `\n# 【NARR】文遊敘事規則（嚴格遵守）\n`;
-  sys += `· 你是「文字遊戲主持人」，用小說敘事法寫出一段完整場景。\n`;
+  sys += `· 用小說敘事法寫出一段完整場景。\n`;
   sys += `· 字數必須在 500-600 字之間（繁體中文）。\n`;
   sys += `· 分為 3-5 個自然段落，段落之間用空行分隔。\n`;
-  sys += `· 第三人稱全知視角。\n`;
+  sys += `· 第三人稱全知視角（描述 ${npc.name} 的動作、心理、環境）。\n`;
   sys += `· 必須包含：\n`;
-  if (drama.narrAction !== false) sys += `  ① ${npc.name}的肢體動作與表情\n`;
+  if (drama.narrAction !== false) sys += `  ① ${npc.name} 的肢體動作與表情\n`;
   if (drama.narrInner !== false)  sys += `  ② 內心獨白或心理活動\n`;
   if (drama.narrSensory !== false) sys += `  ③ 感官描寫（氣味、聲音、溫度、光線）\n`;
   sys += `  ④ 環境與時間的細節\n`;
   sys += `  ⑤ 一個往前推進的懸念或情緒轉折\n`;
   sys += `· 用詞要有文學感，避免網路用語。\n`;
-  sys += `· 不要用引號直接引用對話內容。\n`;
+  sys += `· 不要在旁白裡直接引用對話內容（對話放在 [CHAT]）。\n`;
 
   sys += `\n# 【輸出格式（嚴格遵守）】\n`;
-  sys += `請輸出四段，用標籤分隔，不要有其他文字：\n\n`;
+  sys += `請輸出四段，用標籤分隔，不要有其他文字、前言、解釋：\n\n`;
   if (lang === 'zh') {
-    sys += `[CHAT]繁體中文訊息（純中文，絕對不要韓文，不要用「|」分隔）\n`;
+    sys += `[CHAT]${npc.name} 用繁體中文給玩家的回覆（純中文，不要韓文，不要「|」）\n`;
   } else {
-    sys += `[CHAT]韓語原文|繁體中文翻譯\n`;
+    sys += `[CHAT]${npc.name} 用韓語給玩家的回覆|對應的繁體中文翻譯\n`;
   }
-  sys += `[NARR]500-600字的繁體中文小說敘事，分3-5段，用空行分隔\n`;
+  sys += `[NARR]500-600字的繁體中文小說敘事，分3-5段，段落間空行\n`;
   sys += `[MOOD]情緒標籤\n`;
   sys += `[AFFECTION]整數（+N / -N / 0）\n\n`;
   sys += `[MOOD] 從 tense / warm / sweet / cold / sad / hope / loss / angry 中選一個。\n`;
-  sys += `[AFFECTION] 只填一個整數，不要加其他文字。\n`;
-  if (lang === 'zh') {
-    sys += `[CHAT] 只放一條純中文訊息，絕對不要出現韓文或「|」。\n`;
-  } else {
-    sys += `[CHAT] 韓語原文與繁體中文翻譯之間用「|」分隔。\n`;
-  }
+  sys += `[AFFECTION] 只填一個整數。\n`;
+  sys += `\n再次強調：[CHAT] 必須是「${npc.name}」以角色身份給出的回應，絕對不能複述玩家的話。\n`;
 
   try {
     const res = await fetch('/api/chat', {
@@ -1657,7 +1531,7 @@ function parseAIResponse(raw) {
 }
 
 /* ============================================================
-   9. 發送
+   發送
    ============================================================ */
 async function send() {
   const inp = document.getElementById('inp');
@@ -1695,31 +1569,6 @@ async function send() {
   render();
 }
 
-/* ============================================================
-   10. 事件
-   ============================================================ */
-document.getElementById('tabKakao').onclick = () => {
-  platform = 'kakao';
-  document.getElementById('tabKakao').classList.add('on');
-  document.getElementById('tabIg').classList.remove('on');
-  render();
-};
-document.getElementById('tabIg').onclick = () => {
-  platform = 'ig';
-  document.getElementById('tabIg').classList.add('on');
-  document.getElementById('tabKakao').classList.remove('on');
-  render();
-};
-document.getElementById('transToggle').onclick = () => {
-  showTranslation = !showTranslation;
-  localStorage.setItem('showTranslation', showTranslation ? 'on' : 'off');
-  render();
-};
-document.getElementById('narrToggle').onclick = () => {
-  showNarrative = !showNarrative;
-  localStorage.setItem('showNarrative', showNarrative ? 'on' : 'off');
-  render();
-};
 document.getElementById('send').onclick = send;
 document.getElementById('inp').addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
 
