@@ -13,7 +13,7 @@ body{
 }
 .wrap{display:flex;flex-direction:column;align-items:center;gap:18px}
 
-.tabs{display:flex;gap:8px;align-items:center}
+.tabs{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center}
 .tabs button{
   background:#1c1c22;color:#9a9aa5;border:1px solid #2a2a33;
   padding:8px 20px;border-radius:999px;font-size:13px;cursor:pointer;
@@ -25,7 +25,6 @@ body{
   background:#1c1c22;color:#9a9aa5;border:1px solid #2a2a33;
   padding:8px 16px;border-radius:999px;font-size:13px;cursor:pointer;
   transition:.18s;font-family:inherit;display:flex;align-items:center;gap:6px;
-  margin-left:6px;
 }
 .trans-toggle.on{background:#4C8BF5;color:#fff;border-color:#4C8BF5}
 .trans-toggle .dot{
@@ -67,6 +66,11 @@ body{
 .hdr .name{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hdr .sub{font-size:11.5px;color:var(--hdr-sub);margin-top:1px}
 .hdr .tag{font-size:9.5px;letter-spacing:.1em;opacity:.5;font-weight:700}
+.hdr .gear{
+  font-size:17px;cursor:pointer;opacity:.55;margin-left:4px;
+  padding:4px;border-radius:50%;transition:.18s;
+}
+.hdr .gear:hover{opacity:1;background:rgba(128,128,128,.15)}
 
 .chat{
   flex:1;background:var(--bg);overflow-y:auto;
@@ -137,6 +141,32 @@ body{
 .phone.ig .composer button{color:#fff}
 
 .typing{font-size:12px;color:var(--hdr-sub);padding:6px 12px;font-style:italic}
+
+/* API Key 設定彈窗 */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);
+  display:none;align-items:center;justify-content:center;z-index:999;
+}
+.modal-bg.show{display:flex}
+.modal{
+  background:#1c1c22;border:1px solid #2a2a33;border-radius:16px;
+  padding:24px;width:340px;color:#fff;
+}
+.modal h3{font-size:15px;margin-bottom:14px;font-weight:600}
+.modal input{
+  width:100%;background:#0b0b0e;border:1px solid #2a2a33;border-radius:10px;
+  padding:11px 14px;font-size:13px;color:#fff;outline:none;
+  font-family:inherit;
+}
+.modal input:focus{border-color:#4C8BF5}
+.modal .row2{display:flex;gap:8px;margin-top:16px}
+.modal .row2 button{
+  flex:1;padding:10px;border-radius:10px;font-size:13px;font-weight:600;
+  cursor:pointer;font-family:inherit;border:none;
+}
+.modal .row2 .cancel{background:#2a2a33;color:#ccc}
+.modal .row2 .ok{background:#4C8BF5;color:#fff}
+.modal .tip{font-size:11px;color:#8e8e8e;margin-top:10px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -159,6 +189,19 @@ body{
   </div>
 </div>
 
+<!-- API Key 設定彈窗 -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3>⚙️ Gemini API Key 설정</h3>
+    <input id="keyInput" type="password" placeholder="AIzaSy...">
+    <div class="tip">Google AI Studio에서 발급받은 키를 붙여넣으세요. 브라우저에만 저장되고 외부로 전송되지 않습니다.</div>
+    <div class="row2">
+      <button class="cancel" id="modalCancel">취소</button>
+      <button class="ok" id="modalOk">저장</button>
+    </div>
+  </div>
+</div>
+
 <script>
 /* ============================================================
    1. 캐릭터 정보
@@ -177,7 +220,7 @@ const DATA = {
 };
 
 /* ============================================================
-   2. 초기 대화 (자유롭게 수정하거나 비워도 됨)
+   2. 초기 대화
    ============================================================ */
 let MESSAGES = [
   { id:'m1', side:'npc',    time:'21:03', kr:'오늘 뭐 해?',                    zh:'今天要幹嘛？' },
@@ -193,13 +236,9 @@ let platform = 'kakao';
 let isTyping = false;
 let showTranslation = localStorage.getItem('showTranslation') !== 'off';
 
-/* ⚠️ 여기에 Gemini API Key 입력 ⚠️ */
-const GEMINI_API_KEY = '여기에_API_키_입력';
-
 const esc = s => String(s ?? '').replace(/[&<>"]/g,
   c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-/* 상태 표시 (한국어) */
 const statusText = s => ({ sent:'전송됨', unread:'안 읽음', read:'읽음' }[s] || '');
 
 const nowTime = () => {
@@ -214,7 +253,6 @@ function render() {
   const d = DATA[platform];
   document.getElementById('phone').className = 'phone ' + platform;
 
-  /* 상단 헤더 */
   document.getElementById('hdrSlot').innerHTML = `
     <header class="hdr">
       <div class="back">‹</div>
@@ -224,9 +262,9 @@ function render() {
         <div class="sub">${esc(d.sub)}</div>
       </div>
       <div class="tag">${platform === 'kakao' ? 'KAKAO' : 'IG'}</div>
+      <div class="gear" id="gearBtn" title="API Key 설정">⚙️</div>
     </header>`;
 
-  /* 번역 토글 버튼 상태 업데이트 */
   const toggle = document.getElementById('transToggle');
   const label = document.getElementById('transLabel');
   if (showTranslation) {
@@ -237,7 +275,6 @@ function render() {
     label.textContent = '번역 OFF';
   }
 
-  /* 메시지 렌더링 */
   const chat = document.getElementById('chat');
   let html = '';
   let prevSide = null;
@@ -297,20 +334,61 @@ function render() {
 
   chat.innerHTML = html;
   chat.scrollTop = chat.scrollHeight;
+
+  /* 綁定齒輪按鈕 */
+  const gear = document.getElementById('gearBtn');
+  if (gear) {
+    gear.onclick = openModal;
+  }
 }
 
 /* ============================================================
-   5. Gemini API 호출
+   5. API Key 設定彈窗
+   ============================================================ */
+const modalBg = document.getElementById('modalBg');
+const keyInput = document.getElementById('keyInput');
+
+function openModal() {
+  keyInput.value = localStorage.getItem('gemini_api_key') || '';
+  modalBg.classList.add('show');
+  setTimeout(() => keyInput.focus(), 50);
+}
+
+function closeModal() {
+  modalBg.classList.remove('show');
+}
+
+document.getElementById('modalCancel').onclick = closeModal;
+document.getElementById('modalOk').onclick = () => {
+  const v = keyInput.value.trim();
+  if (!v) {
+    alert('API Key를 입력해 주세요.');
+    return;
+  }
+  localStorage.setItem('gemini_api_key', v);
+  closeModal();
+  alert('저장되었습니다! 이제 메시지를 보내보세요.');
+};
+keyInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('modalOk').click();
+});
+modalBg.addEventListener('click', e => {
+  if (e.target === modalBg) closeModal();
+});
+
+/* ============================================================
+   6. Gemini API 호출
    ============================================================ */
 async function callAI(userMessage) {
-  if (!GEMINI_API_KEY || GEMINI_API_KEY === '여기에_API_키_입력') {
-    alert('코드에 Gemini API Key를 먼저 입력해 주세요!');
+  const apiKey = localStorage.getItem('gemini_api_key');
+  if (!apiKey) {
+    openModal();
     return null;
   }
 
   const prompt = `너는 한국어 연애 시뮬레이션 캐릭터이고, 이름은 박지민이야. 사용자와 채팅 앱으로 대화하고 있어. 사용자의 말에 자연스러운 한국어로 답장하고, 번역도 함께 제공해. 반드시 다음 형식으로만 답해: 한국어 원문|繁體中文翻譯. 다른 설명은 하지 마. 사용자: ${userMessage}`;
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
   const body = {
     contents: [{
@@ -329,6 +407,9 @@ async function callAI(userMessage) {
       return data.candidates[0].content.parts[0].text;
     } else {
       console.error('API 응답 오류:', data);
+      if (data.error && data.error.message) {
+        alert('API 오류: ' + data.error.message);
+      }
       return '미안, 지금 답장 못 해 😢|抱歉，現在沒辦法回你 😢';
     }
   } catch (err) {
@@ -338,7 +419,7 @@ async function callAI(userMessage) {
 }
 
 /* ============================================================
-   6. 메시지 전송 + AI 응답
+   7. 메시지 전송
    ============================================================ */
 async function send() {
   const inp = document.getElementById('inp');
@@ -392,7 +473,7 @@ async function send() {
 }
 
 /* ============================================================
-   7. 이벤트 바인딩
+   8. 이벤트 바인딩
    ============================================================ */
 document.getElementById('tabKakao').onclick = () => {
   platform = 'kakao';
