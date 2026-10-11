@@ -19,14 +19,15 @@ body{
   transition:.18s;font-family:inherit;
 }
 .tabs button.on{background:#fff;color:#111;border-color:#fff}
-.trans-toggle{
+.trans-toggle,.narr-toggle{
   background:#1c1c22;color:#9a9aa5;border:1px solid #2a2a33;
   padding:8px 16px;border-radius:999px;font-size:13px;cursor:pointer;
   transition:.18s;font-family:inherit;display:flex;align-items:center;gap:6px;
 }
 .trans-toggle.on{background:#4C8BF5;color:#fff;border-color:#4C8BF5}
-.trans-toggle .dot{width:8px;height:8px;border-radius:50%;background:#4a4a55;transition:.18s}
-.trans-toggle.on .dot{background:#fff}
+.narr-toggle.on{background:#a06cff;color:#fff;border-color:#a06cff}
+.trans-toggle .dot,.narr-toggle .dot{width:8px;height:8px;border-radius:50%;background:#4a4a55;transition:.18s}
+.trans-toggle.on .dot,.narr-toggle.on .dot{background:#fff}
 .phone{
   width:390px;height:780px;border-radius:40px;overflow:hidden;
   display:flex;flex-direction:column;position:relative;
@@ -38,14 +39,14 @@ body{
   --npc-bg:#ffffff; --npc-fg:#111111;
   --me-bg:#FEE500; --me-fg:#111111;
   --meta:#5B6B7B; --composer-bg:#B2C7D9; --input-bg:#ffffff;
-  --accent:#FEE500;
+  --accent:#FEE500; --narr-bg:rgba(255,255,255,.45); --narr-border:rgba(80,100,120,.5); --narr-fg:#2a3a48;
 }
 .phone.ig{
   --bg:#000000; --hdr-bg:#000000; --hdr-fg:#ffffff; --hdr-sub:#8e8e8e;
   --npc-bg:#262626; --npc-fg:#ffffff;
   --me-bg:linear-gradient(135deg,#6E4AFF 0%,#3C82FF 100%); --me-fg:#ffffff;
   --meta:#8e8e8e; --composer-bg:#000000; --input-bg:#1c1c1e;
-  --accent:#3C82FF;
+  --accent:#3C82FF; --narr-bg:rgba(255,255,255,.06); --narr-border:rgba(255,255,255,.25); --narr-fg:#bcbcc4;
 }
 .hdr{
   flex:0 0 auto;background:var(--hdr-bg);color:var(--hdr-fg);
@@ -114,14 +115,47 @@ body{
 }
 .phone.ig .composer button{color:#fff}
 .typing{font-size:12px;color:var(--hdr-sub);padding:6px 12px;font-style:italic}
+
+/* ============ 劇情旁白 ============ */
+.narr-wrap{
+  display:flex;justify-content:center;
+  margin:14px 4px 8px;
+  animation:fadeIn .45s ease;
+}
+.narr{
+  max-width:92%;
+  font-size:12.5px;
+  color:var(--narr-fg);
+  font-style:italic;
+  text-align:left;
+  line-height:1.75;
+  padding:11px 15px 11px 17px;
+  background:var(--narr-bg);
+  border-radius:10px;
+  border-left:3px solid var(--narr-border);
+  white-space:pre-wrap;
+  box-shadow:0 1px 3px rgba(0,0,0,.06);
+}
+.narr-title{
+  font-style:normal;
+  font-size:10.5px;
+  letter-spacing:.12em;
+  opacity:.6;
+  margin-bottom:5px;
+  font-weight:700;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ============ 彈窗 ============ */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:999;padding:20px}
 .modal-bg.show{display:flex}
 .modal{background:#1c1c22;border:1px solid #2a2a33;border-radius:16px;padding:22px;width:100%;max-width:400px;color:#fff;max-height:90vh;overflow-y:auto}
 .modal::-webkit-scrollbar{width:6px}
 .modal::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
-.modal h3{font-size:15px;margin-bottom:16px;font-weight:600;display:flex;align-items:center;gap:8px}
 .modal label{display:block;font-size:12px;color:#9a9aa5;margin-bottom:6px;margin-top:12px}
-.modal label .hint{color:#666;font-size:11px;font-weight:400}
 .modal input[type=text], .modal input[type=password], .modal select, .modal textarea{
   width:100%;background:#0b0b0e;border:1px solid #2a2a33;border-radius:10px;
   padding:10px 13px;font-size:13px;color:#fff;outline:none;font-family:inherit;
@@ -202,6 +236,9 @@ body{
     <button id="transToggle" class="trans-toggle on">
       <span class="dot"></span><span id="transLabel">번역 ON</span>
     </button>
+    <button id="narrToggle" class="narr-toggle on">
+      <span class="dot"></span><span id="narrLabel">劇情 ON</span>
+    </button>
   </div>
 
   <div class="phone kakao" id="phone">
@@ -221,11 +258,9 @@ body{
       <button data-tab="chars">角色 · 關係設定</button>
     </div>
 
-    <!-- ============ API 分頁 ============ -->
     <div class="modal-tab-content on" id="tab-api">
       <label>OpenAI API Key</label>
       <input id="keyInput" type="password" placeholder="sk-...">
-
       <label>模型選擇</label>
       <select id="modelSelect">
         <option value="gpt-4o-mini">gpt-4o-mini — 便宜 · 快速（推薦）</option>
@@ -235,27 +270,20 @@ body{
         <option value="gpt-4-turbo">gpt-4-turbo</option>
         <option value="gpt-3.5-turbo">gpt-3.5-turbo — 便宜</option>
       </select>
-
       <div class="test-result" id="testResult"></div>
-
       <div class="row2">
         <button class="test" id="btnTest">🧪 測試</button>
         <button class="ok" id="btnSaveApi">儲存</button>
       </div>
-
       <div class="tip">
         API Key 只會儲存在瀏覽器中，不會傳送到其他地方。<br>
         取得 Key：<a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>
       </div>
     </div>
 
-    <!-- ============ 角色設定分頁 ============ -->
     <div class="modal-tab-content" id="tab-chars">
-
-      <!-- ===== 關係與背景 ===== -->
       <div class="char-section highlight">
         <h4>關係與背景 <span class="badge pink">RELATION</span></h4>
-
         <label>關係類型</label>
         <div class="rel-chips" id="relChips">
           <button data-rel="戀人">戀人</button>
@@ -269,37 +297,27 @@ body{
           <button data-rel="青梅竹馬">青梅竹馬</button>
           <button data-rel="網戀">網戀</button>
         </div>
-
         <label>關係摘要</label>
         <input type="text" id="relSummary" placeholder="例：高中同學，三個月前開始曖昧">
-
         <label>稱呼方式</label>
         <input type="text" id="relAddress" placeholder="例：他叫我「小笨蛋」，我叫他「지민아」">
         <div class="field-hint">對方怎麼叫你、你怎麼叫對方（暱稱、敬語、오빠、名字等）</div>
-
         <label>背景 / 世界觀 / 故事設定</label>
-        <textarea id="relStory" placeholder="例：同大學同科系，去年校慶認識，現在每天都會聊天。他平時在咖啡廳打工。"></textarea>
+        <textarea id="relStory" placeholder="例：同大學同科系，去年校慶認識，現在每天都會聊天。"></textarea>
       </div>
 
-      <!-- ===== 目前狀態 ===== -->
       <div class="char-section highlight">
         <h4>目前狀態 <span class="badge green">STATUS</span></h4>
-
         <label>目前時間線 / 劇情進度</label>
         <textarea id="relTimeline" placeholder="例：認識第 47 天，曖昧中。上週末一起去看了電影。"></textarea>
-
         <label>目前場景</label>
         <input type="text" id="relScene" placeholder="例：週六晚上，我在家，他剛下班回到宿舍">
-
         <label>重要事件記錄</label>
-        <textarea id="relEvents" placeholder="例：&#10;· 第 10 天：第一次單獨吃飯&#10;· 第 30 天：他喝醉時傳了語音&#10;· 第 45 天：一起看電影，他牽了我的手"></textarea>
-
+        <textarea id="relEvents" placeholder="例：&#10;· 第 10 天：第一次單獨吃飯&#10;· 第 30 天：他喝醉時傳了語音"></textarea>
         <label>好感度 / 關係階段</label>
         <input type="text" id="relAffinity" placeholder="例：好感度 78/100，處於「曖昧後期」">
-        <div class="field-hint">可用文字或數值描述，AI 會參考這個調整回覆親密度</div>
       </div>
 
-      <!-- ===== NPC ===== -->
       <div class="char-section">
         <h4>對方角色 <span class="badge">NPC</span></h4>
         <div class="avatar-row">
@@ -312,22 +330,16 @@ body{
         </div>
         <label>名字</label>
         <input type="text" id="npcName" placeholder="例：박지민">
-
         <label>Instagram 使用者名稱（不含 @）</label>
         <input type="text" id="npcUsername" placeholder="例：jimin_0fficial">
-
         <label>性格 / 說話風格</label>
-        <textarea id="npcPersona" placeholder="例：開朗、愛開玩笑，很常用 emoji。回訊息快，但打工時會慢。傲嬌。喜歡咖啡。"></textarea>
-
+        <textarea id="npcPersona" placeholder="例：開朗、愛開玩笑，很常用 emoji。"></textarea>
         <label>口頭禪 / 常用語</label>
-        <textarea id="npcPhrases" placeholder="例：&#10;· 常用「ㅋㅋㅋ」「진짜?」「헐」&#10;· 生氣時會說「아 진짜…」&#10;· 撒嬌時會用「~잖아」"></textarea>
-
+        <textarea id="npcPhrases" placeholder="例：&#10;· 常用「ㅋㅋㅋ」「진짜?」「헐」"></textarea>
         <label>禁止事項</label>
-        <textarea id="npcForbidden" placeholder="例：&#10;· 絕對不會說「사랑해」（目前階段）&#10;· 不會主動提「交往」&#10;· 不用粗話，最多「바보」"></textarea>
-        <div class="field-hint">這些是角色「絕對不會做 / 說」的事，AI 會避開</div>
+        <textarea id="npcForbidden" placeholder="例：&#10;· 絕對不會說「사랑해」（目前階段）"></textarea>
       </div>
 
-      <!-- ===== Player ===== -->
       <div class="char-section">
         <h4>我的角色 <span class="badge blue">PLAYER</span></h4>
         <div class="avatar-row">
@@ -340,18 +352,14 @@ body{
         </div>
         <label>我的名字</label>
         <input type="text" id="playerName" placeholder="例：我">
-
         <label>我的設定（選填）</label>
-        <textarea id="playerPersona" placeholder="例：25 歲上班族，話不多但對他特別溫柔。喜歡打遊戲。"></textarea>
+        <textarea id="playerPersona" placeholder="例：25 歲上班族，話不多但對他特別溫柔。"></textarea>
       </div>
 
-      <!-- ===== 劇情分支 ===== -->
       <div class="char-section highlight">
         <h4>劇情分支 / 結局 <span class="badge orange">BRANCH</span></h4>
-
         <label>分支 / 結局條件</label>
-        <textarea id="relBranches" placeholder="例：&#10;· 好感度 > 90 且主動告白 → 交往 END&#10;· 好感度 &lt; 30 連續三天不回 → 冷淡 END&#10;· 提及前女友超過 3 次 → 吵架分支"></textarea>
-        <div class="field-hint">用來控制劇情走向的規則，AI 會依照這些判斷</div>
+        <textarea id="relBranches" placeholder="例：&#10;· 好感度 &gt; 90 且主動告白 → 交往 END&#10;· 好感度 &lt; 30 連續三天不回 → 冷淡 END"></textarea>
       </div>
 
       <div class="row2">
@@ -370,8 +378,7 @@ const DEFAULT_NPC = {
   name: '박지민', username: 'jimin_0fficial', avatar: null,
   gradient: 'linear-gradient(135deg,#c9d6e2,#9fb3c8)',
   persona: '開朗、愛開玩笑，很常用 emoji。回訊息快，但打工時會慢。傲嬌。喜歡咖啡。',
-  phrases: '',
-  forbidden: ''
+  phrases: '', forbidden: ''
 };
 const DEFAULT_PLAYER = {
   name: '我', avatar: null,
@@ -379,15 +386,8 @@ const DEFAULT_PLAYER = {
   persona: ''
 };
 const DEFAULT_REL = {
-  type: '',
-  summary: '',
-  address: '',
-  story: '',
-  timeline: '',
-  scene: '',
-  events: '',
-  affinity: '',
-  branches: ''
+  type:'', summary:'', address:'', story:'',
+  timeline:'', scene:'', events:'', affinity:'', branches:''
 };
 
 function load(key, def) {
@@ -407,21 +407,23 @@ function avatarStyle(ch) {
 }
 
 /* ============================================================
-   2. 初始對話
+   2. 初始訊息
    ============================================================ */
 let MESSAGES = [
   { id:'m1', side:'npc',    time:'21:03', kr:'오늘 뭐 해?',                    zh:'今天要幹嘛？' },
   { id:'m2', side:'player', time:'21:04', status:'read',   kr:'그냥 집에 있어', zh:'就待在家裡' },
   { id:'m3', side:'npc',    time:'21:05', kr:'심심한데…',                     zh:'好無聊喔……' },
-  { id:'m4', side:'npc',    time:'21:05', kr:'나 방금 퇴근했어',               zh:'我剛下班' },
+  { id:'m4', side:'npc',    time:'21:05', kr:'나 방금 퇴근했어',               zh:'我剛下班',
+    narr:'지민이의 목소리엔 피곤함이 살짝 묻어 있었다。늦은 밤， 편의점 불빛 아래에서 보낸 하루가 끝나가는 시간。' }
 ];
 
 /* ============================================================
-   3. 全域變數
+   3. 全域
    ============================================================ */
 let platform = 'kakao';
 let isTyping = false;
 let showTranslation = localStorage.getItem('showTranslation') !== 'off';
+let showNarrative = localStorage.getItem('showNarrative') !== 'off';
 let pendingNPC = getNPC();
 let pendingPlayer = getPlayer();
 let pendingRel = getRel();
@@ -435,7 +437,7 @@ const nowTime = () => {
 };
 
 /* ============================================================
-   4. 渲染聊天室
+   4. 渲染
    ============================================================ */
 function render() {
   const npc = getNPC();
@@ -451,13 +453,18 @@ function render() {
         <div class="sub">${platform === 'kakao' ? 'KakaoTalk' : '@' + esc(npc.username)}</div>
       </div>
       <div class="tag">${platform === 'kakao' ? 'KAKAO' : 'IG'}</div>
-      <div class="gear" id="gearBtn" title="설정">⚙️</div>
+      <div class="gear" id="gearBtn" title="設定">⚙️</div>
     </header>`;
 
   const toggle = document.getElementById('transToggle');
   const label = document.getElementById('transLabel');
   if (showTranslation) { toggle.classList.add('on'); label.textContent = '번역 ON'; }
   else { toggle.classList.remove('on'); label.textContent = '번역 OFF'; }
+
+  const nToggle = document.getElementById('narrToggle');
+  const nLabel = document.getElementById('narrLabel');
+  if (showNarrative) { nToggle.classList.add('on'); nLabel.textContent = '劇情 ON'; }
+  else { nToggle.classList.remove('on'); nLabel.textContent = '劇情 OFF'; }
 
   const chat = document.getElementById('chat');
   let html = '';
@@ -466,6 +473,7 @@ function render() {
   for (const m of MESSAGES) {
     const cont = prevSide === m.side;
     prevSide = m.side;
+
     let inner = '';
     if (m.kind === 'story_reply' && platform === 'ig') inner += `<div class="ctx">스토리에 답장함</div>`;
     if (m.kind === 'reel_share' || m.kind === 'post_share') {
@@ -492,6 +500,16 @@ function render() {
           ${m.reactions && m.reactions.length ? `<div class="reactions">${m.reactions.join('')}</div>` : ''}
         </div>
       </div>`;
+
+    if (m.narr && showNarrative) {
+      html += `
+        <div class="narr-wrap">
+          <div class="narr">
+            <div class="narr-title">▸ 劇情</div>
+            ${esc(m.narr)}
+          </div>
+        </div>`;
+    }
   }
   if (isTyping) html += `<div class="typing">입력 중…</div>`;
 
@@ -502,7 +520,7 @@ function render() {
 }
 
 /* ============================================================
-   5. 設定彈窗
+   5. 彈窗
    ============================================================ */
 const modalBg = document.getElementById('modalBg');
 const keyInput = document.getElementById('keyInput');
@@ -530,7 +548,7 @@ document.querySelectorAll('.modal-tabs button').forEach(btn => {
 });
 
 /* ============================================================
-   6. API 儲存 / 測試
+   6. API
    ============================================================ */
 document.getElementById('btnSaveApi').onclick = () => {
   const k = keyInput.value.trim();
@@ -577,10 +595,9 @@ function showTest(type, text) {
 }
 
 /* ============================================================
-   7. 角色表單
+   7. 表單
    ============================================================ */
 function fillCharForm() {
-  // 關係
   document.getElementById('relSummary').value = pendingRel.summary || '';
   document.getElementById('relAddress').value = pendingRel.address || '';
   document.getElementById('relStory').value   = pendingRel.story || '';
@@ -593,7 +610,6 @@ function fillCharForm() {
     b.classList.toggle('on', b.dataset.rel === pendingRel.type);
   });
 
-  // NPC
   document.getElementById('npcName').value = pendingNPC.name || '';
   document.getElementById('npcUsername').value = pendingNPC.username || '';
   document.getElementById('npcPersona').value = pendingNPC.persona || '';
@@ -601,7 +617,6 @@ function fillCharForm() {
   document.getElementById('npcForbidden').value = pendingNPC.forbidden || '';
   updateAvPreview('npcAvPreview', pendingNPC);
 
-  // Player
   document.getElementById('playerName').value = pendingPlayer.name || '';
   document.getElementById('playerPersona').value = pendingPlayer.persona || '';
   updateAvPreview('playerAvPreview', pendingPlayer);
@@ -610,12 +625,10 @@ function fillCharForm() {
 document.querySelectorAll('#relChips button').forEach(b => {
   b.onclick = () => {
     if (b.classList.contains('on')) {
-      b.classList.remove('on');
-      pendingRel.type = '';
+      b.classList.remove('on'); pendingRel.type = '';
     } else {
       document.querySelectorAll('#relChips button').forEach(x => x.classList.remove('on'));
-      b.classList.add('on');
-      pendingRel.type = b.dataset.rel;
+      b.classList.add('on'); pendingRel.type = b.dataset.rel;
     }
   };
 });
@@ -683,7 +696,6 @@ document.getElementById('playerAvClear').onclick = () => {
 };
 
 document.getElementById('btnSaveChars').onclick = () => {
-  // 關係
   pendingRel.summary = document.getElementById('relSummary').value.trim();
   pendingRel.address = document.getElementById('relAddress').value.trim();
   pendingRel.story   = document.getElementById('relStory').value.trim();
@@ -693,14 +705,12 @@ document.getElementById('btnSaveChars').onclick = () => {
   pendingRel.affinity= document.getElementById('relAffinity').value.trim();
   pendingRel.branches= document.getElementById('relBranches').value.trim();
 
-  // NPC
   pendingNPC.name = document.getElementById('npcName').value.trim() || DEFAULT_NPC.name;
   pendingNPC.username = document.getElementById('npcUsername').value.trim() || DEFAULT_NPC.username;
   pendingNPC.persona = document.getElementById('npcPersona').value.trim();
   pendingNPC.phrases = document.getElementById('npcPhrases').value.trim();
   pendingNPC.forbidden = document.getElementById('npcForbidden').value.trim();
 
-  // Player
   pendingPlayer.name = document.getElementById('playerName').value.trim() || DEFAULT_PLAYER.name;
   pendingPlayer.persona = document.getElementById('playerPersona').value.trim();
 
@@ -723,7 +733,7 @@ document.getElementById('btnResetChars').onclick = () => {
 };
 
 /* ============================================================
-   8. OpenAI 呼叫（帶入所有欄位）
+   8. AI 呼叫（含劇情旁白）
    ============================================================ */
 async function callAI(userMessage) {
   const apiKey = localStorage.getItem('openai_api_key');
@@ -735,18 +745,14 @@ async function callAI(userMessage) {
   const rel = getRel();
 
   let sys = '';
-
-  // 角色設定
   sys += `你是「${npc.name}」。\n`;
   if (npc.persona) sys += `【你的性格 / 說話風格】${npc.persona}\n`;
   if (npc.phrases) sys += `【你的口頭禪 / 常用語】${npc.phrases}\n`;
   if (npc.forbidden) sys += `【禁止事項（絕對不能做 / 說）】${npc.forbidden}\n`;
 
-  // 玩家設定
   sys += `\n對方是「${player.name}」。\n`;
   if (player.persona) sys += `【對方設定】${player.persona}\n`;
 
-  // 關係與背景
   if (rel.type || rel.summary || rel.address || rel.story) {
     sys += `\n【兩人的關係與背景】\n`;
     if (rel.type)    sys += `· 關係類型：${rel.type}\n`;
@@ -755,7 +761,6 @@ async function callAI(userMessage) {
     if (rel.story)   sys += `· 背景設定：${rel.story}\n`;
   }
 
-  // 目前狀態
   if (rel.timeline || rel.scene || rel.events || rel.affinity) {
     sys += `\n【目前狀態】\n`;
     if (rel.timeline) sys += `· 時間線 / 劇情進度：${rel.timeline}\n`;
@@ -764,15 +769,15 @@ async function callAI(userMessage) {
     if (rel.affinity) sys += `· 好感度 / 關係階段：${rel.affinity}\n`;
   }
 
-  // 劇情分支
-  if (rel.branches) {
-    sys += `\n【劇情分支 / 結局條件】\n${rel.branches}\n`;
-  }
+  if (rel.branches) sys += `\n【劇情分支 / 結局條件】\n${rel.branches}\n`;
 
-  // 輸出格式
-  sys += `\n現在你和對方正在用聊天 App 對話。請依照上述所有設定，用自然的韓語回覆。`;
-  sys += `\n回覆格式必須嚴格為：韓語原文|繁體中文翻譯`;
-  sys += `\n不要有多餘的說明或解釋。`;
+  sys += `\n【輸出格式（嚴格遵守）】\n`;
+  sys += `請輸出兩段，用標籤分隔，不要有其他文字：\n`;
+  sys += `[CHAT]韓語原文|繁體中文翻譯\n`;
+  sys += `[NARR]繁體中文劇情旁白\n`;
+  sys += `\n[CHAT] 是你作為「${npc.name}」在聊天室裡發送的訊息。只放一條訊息，不要拆成多條。\n`;
+  sys += `[NARR] 是第三人稱視角的劇情旁白：描述場景、氣氛、${npc.name}的動作與心理，或接下來的發展。用繁體中文，2~4 句，不要用第一人稱，不要加引號。\n`;
+  sys += `語氣與人稱必須與上述關係設定一致。`;
 
   try {
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -789,7 +794,7 @@ async function callAI(userMessage) {
           { role: 'user', content: userMessage }
         ],
         temperature: 0.9,
-        max_tokens: 250
+        max_tokens: 400
       })
     });
     const data = await res.json();
@@ -797,19 +802,48 @@ async function callAI(userMessage) {
       const msg = data.error && data.error.message ? data.error.message : ('HTTP ' + res.status);
       console.error('OpenAI 錯誤:', data);
       alert('API 錯誤：' + msg);
-      return '미안, 지금 답장 못 해 😢|抱歉，現在沒辦法回你 😢';
+      return { kr:'미안, 지금 답장 못 해 😢', zh:'抱歉，現在沒辦法回你 😢', narr:'' };
     }
-    if (data.choices && data.choices[0] && data.choices[0].message) return data.choices[0].message.content;
-    return '미안, 지금 답장 못 해 😢|抱歉，現在沒辦法回你 😢';
+    if (data.choices && data.choices[0] && data.choices[0].message) {
+      return parseAIResponse(data.choices[0].message.content);
+    }
+    return { kr:'미안, 지금 답장 못 해 😢', zh:'抱歉，現在沒辦法回你 😢', narr:'' };
   } catch (err) {
     console.error('API 呼叫失敗:', err);
     alert('網路錯誤：' + err.message);
-    return '미안, 지금 답장 못 해 😢|抱歉，現在沒辦法回你 😢';
+    return { kr:'미안, 지금 답장 못 해 😢', zh:'抱歉，現在沒辦法回你 😢', narr:'' };
   }
 }
 
+/* 解析 AI 回覆（[CHAT]... [NARR]...） */
+function parseAIResponse(raw) {
+  raw = String(raw || '').trim();
+  let chatText = '';
+  let narrText = '';
+
+  const chatMatch = raw.match(/\[CHAT\]\s*([\s\S]*?)(?=\[NARR\]|$)/i);
+  const narrMatch = raw.match(/\[NARR\]\s*([\s\S]*?)$/i);
+
+  if (chatMatch) chatText = chatMatch[1].trim();
+  if (narrMatch) narrText = narrMatch[1].trim();
+
+  if (!chatText && !narrText) chatText = raw;
+
+  chatText = chatText.replace(/^\[CHAT\]/i, '').trim();
+  narrText = narrText.replace(/^\[NARR\]/i, '').trim();
+
+  let kr = chatText, zh = '';
+  if (chatText.includes('|')) {
+    const idx = chatText.indexOf('|');
+    kr = chatText.slice(0, idx).trim();
+    zh = chatText.slice(idx + 1).trim();
+  }
+
+  return { kr, zh, narr: narrText };
+}
+
 /* ============================================================
-   9. 訊息傳送
+   9. 發送
    ============================================================ */
 async function send() {
   const inp = document.getElementById('inp');
@@ -824,24 +858,23 @@ async function send() {
   render();
 
   isTyping = true; render();
-  const aiReplyRaw = await callAI(v);
-  if (aiReplyRaw === null) { isTyping = false; render(); return; }
+  const ai = await callAI(v);
+  if (ai === null) { isTyping = false; render(); return; }
 
-  let kr = aiReplyRaw, zh = '';
-  if (aiReplyRaw.includes('|')) {
-    const parts = aiReplyRaw.split('|');
-    kr = parts[0].trim();
-    zh = parts[1] ? parts[1].trim() : '';
-  }
   const lastPlayer = [...MESSAGES].reverse().find(m => m.side === 'player');
   if (lastPlayer) lastPlayer.status = 'read';
-  MESSAGES.push({ id:'ai'+Date.now(), side:'npc', time:nowTime(), kr, zh });
+
+  MESSAGES.push({
+    id:'ai'+Date.now(), side:'npc', time:nowTime(),
+    kr: ai.kr, zh: ai.zh, narr: ai.narr
+  });
+
   isTyping = false;
   render();
 }
 
 /* ============================================================
-   10. 事件綁定
+   10. 事件
    ============================================================ */
 document.getElementById('tabKakao').onclick = () => {
   platform = 'kakao';
@@ -858,6 +891,11 @@ document.getElementById('tabIg').onclick = () => {
 document.getElementById('transToggle').onclick = () => {
   showTranslation = !showTranslation;
   localStorage.setItem('showTranslation', showTranslation ? 'on' : 'off');
+  render();
+};
+document.getElementById('narrToggle').onclick = () => {
+  showNarrative = !showNarrative;
+  localStorage.setItem('showNarrative', showNarrative ? 'on' : 'off');
   render();
 };
 document.getElementById('send').onclick = send;
