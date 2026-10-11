@@ -120,7 +120,8 @@ body{
 .modal::-webkit-scrollbar{width:6px}
 .modal::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
 .modal h3{font-size:15px;margin-bottom:16px;font-weight:600;display:flex;align-items:center;gap:8px}
-.modal label{display:block;font-size:12px;color:#9a9aa5;margin-bottom:6px;margin-top:14px}
+.modal label{display:block;font-size:12px;color:#9a9aa5;margin-bottom:6px;margin-top:12px}
+.modal label .hint{color:#666;font-size:11px;font-weight:400}
 .modal input[type=text], .modal input[type=password], .modal select, .modal textarea{
   width:100%;background:#0b0b0e;border:1px solid #2a2a33;border-radius:10px;
   padding:10px 13px;font-size:13px;color:#fff;outline:none;font-family:inherit;
@@ -147,10 +148,13 @@ body{
 .modal .tip{font-size:11px;color:#8e8e8e;margin-top:10px;line-height:1.5}
 .modal .tip a{color:#8ec5ff;text-decoration:none}
 .char-section{background:#141419;border:1px solid #26262e;border-radius:12px;padding:14px;margin-top:14px}
+.char-section.highlight{border-color:#3a3a48;background:#181820}
 .char-section h4{font-size:13px;color:#fff;margin-bottom:12px;font-weight:600;display:flex;align-items:center;gap:8px}
 .char-section h4 .badge{font-size:10px;background:#2a2a33;color:#9a9aa5;padding:2px 8px;border-radius:999px;font-weight:500}
 .char-section h4 .badge.pink{background:rgba(255,94,126,.18);color:#ff8fa8}
 .char-section h4 .badge.blue{background:rgba(76,139,245,.2);color:#8ec5ff}
+.char-section h4 .badge.green{background:rgba(76,220,139,.18);color:#7ee0a8}
+.char-section h4 .badge.orange{background:rgba(255,160,80,.18);color:#ffb870}
 .avatar-row{display:flex;align-items:center;gap:14px;margin-bottom:12px}
 .avatar-preview{
   width:60px;height:60px;border-radius:50%;flex:0 0 auto;
@@ -179,8 +183,6 @@ body{
 .modal-tabs button.on{color:#fff;border-bottom-color:#4C8BF5}
 .modal-tab-content{display:none}
 .modal-tab-content.on{display:block}
-
-/* 关系标签快速选择 */
 .rel-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .rel-chips button{
   background:#0b0b0e;border:1px solid #2a2a33;color:#9a9aa5;
@@ -189,6 +191,7 @@ body{
 }
 .rel-chips button:hover{border-color:#4C8BF5;color:#8ec5ff}
 .rel-chips button.on{background:#4C8BF5;color:#fff;border-color:#4C8BF5}
+.field-hint{font-size:11px;color:#666;margin-top:4px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -214,99 +217,146 @@ body{
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <div class="modal-tabs">
-      <button class="on" data-tab="api">API 설정</button>
-      <button data-tab="chars">캐릭터 · 관계 설정</button>
+      <button class="on" data-tab="api">API 設定</button>
+      <button data-tab="chars">角色 · 關係設定</button>
     </div>
 
+    <!-- ============ API 分頁 ============ -->
     <div class="modal-tab-content on" id="tab-api">
       <label>OpenAI API Key</label>
       <input id="keyInput" type="password" placeholder="sk-...">
 
-      <label>모델 선택</label>
+      <label>模型選擇</label>
       <select id="modelSelect">
-        <option value="gpt-4o-mini">gpt-4o-mini — 저렴 · 빠름 (추천)</option>
-        <option value="gpt-4o">gpt-4o — 고성능</option>
+        <option value="gpt-4o-mini">gpt-4o-mini — 便宜 · 快速（推薦）</option>
+        <option value="gpt-4o">gpt-4o — 高效能</option>
         <option value="gpt-4.1-mini">gpt-4.1-mini</option>
         <option value="gpt-4.1">gpt-4.1</option>
         <option value="gpt-4-turbo">gpt-4-turbo</option>
-        <option value="gpt-3.5-turbo">gpt-3.5-turbo — 저렴</option>
+        <option value="gpt-3.5-turbo">gpt-3.5-turbo — 便宜</option>
       </select>
 
       <div class="test-result" id="testResult"></div>
 
       <div class="row2">
-        <button class="test" id="btnTest">🧪 테스트</button>
-        <button class="ok" id="btnSaveApi">저장</button>
+        <button class="test" id="btnTest">🧪 測試</button>
+        <button class="ok" id="btnSaveApi">儲存</button>
       </div>
 
       <div class="tip">
-        API Key는 브라우저에만 저장됩니다. 외부로 전송되지 않습니다.<br>
-        Key 발급: <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>
+        API Key 只會儲存在瀏覽器中，不會傳送到其他地方。<br>
+        取得 Key：<a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>
       </div>
     </div>
 
+    <!-- ============ 角色設定分頁 ============ -->
     <div class="modal-tab-content" id="tab-chars">
-      <!-- ===== 关系与背景（新） ===== -->
-      <div class="char-section" style="border-color:#3a3a48;background:#181820;">
-        <h4>관계 및 배경 <span class="badge pink">RELATION</span></h4>
 
+      <!-- ===== 關係與背景 ===== -->
+      <div class="char-section highlight">
+        <h4>關係與背景 <span class="badge pink">RELATION</span></h4>
+
+        <label>關係類型</label>
         <div class="rel-chips" id="relChips">
-          <button data-rel="연인">연인 (恋人)</button>
-          <button data-rel="썸">썸 (暧昧)</button>
-          <button data-rel="친구">친구 (朋友)</button>
-          <button data-rel="짝사랑">짝사랑 (单恋)</button>
-          <button data-rel="전 연인">전 연인 (前任)</button>
-          <button data-rel="소개팅">소개팅 (相亲)</button>
-          <button data-rel="직장 동료">직장 동료 (同事)</button>
-          <button data-rel="첫 만남">첫 만남 (初次认识)</button>
+          <button data-rel="戀人">戀人</button>
+          <button data-rel="曖昧">曖昧</button>
+          <button data-rel="朋友">朋友</button>
+          <button data-rel="單戀">單戀</button>
+          <button data-rel="前任">前任</button>
+          <button data-rel="相親">相親</button>
+          <button data-rel="同事">同事</button>
+          <button data-rel="初次認識">初次認識</button>
+          <button data-rel="青梅竹馬">青梅竹馬</button>
+          <button data-rel="網戀">網戀</button>
         </div>
 
-        <label>관계 요약 (선택)</label>
-        <input type="text" id="relSummary" placeholder="예: 고등학교 동창, 3개월 전부터 썸 타는 중">
+        <label>關係摘要</label>
+        <input type="text" id="relSummary" placeholder="例：高中同學，三個月前開始曖昧">
 
-        <label>배경 / 세계관 / 스토리 설정</label>
-        <textarea id="relStory" placeholder="예: 같은 대학교 같은 과. 나는 3학년, 지민이는 2학년. 작년 축제에서 처음 만났고, 그 이후로 카톡을 자주 함. 지금은 방학이라 매일 연락하는 중. 지민이는 아르바이트로 카페에서 일함." style="min-height:100px;"></textarea>
+        <label>稱呼方式</label>
+        <input type="text" id="relAddress" placeholder="例：他叫我「小笨蛋」，我叫他「지민아」">
+        <div class="field-hint">對方怎麼叫你、你怎麼叫對方（暱稱、敬語、오빠、名字等）</div>
+
+        <label>背景 / 世界觀 / 故事設定</label>
+        <textarea id="relStory" placeholder="例：同大學同科系，去年校慶認識，現在每天都會聊天。他平時在咖啡廳打工。"></textarea>
+      </div>
+
+      <!-- ===== 目前狀態 ===== -->
+      <div class="char-section highlight">
+        <h4>目前狀態 <span class="badge green">STATUS</span></h4>
+
+        <label>目前時間線 / 劇情進度</label>
+        <textarea id="relTimeline" placeholder="例：認識第 47 天，曖昧中。上週末一起去看了電影。"></textarea>
+
+        <label>目前場景</label>
+        <input type="text" id="relScene" placeholder="例：週六晚上，我在家，他剛下班回到宿舍">
+
+        <label>重要事件記錄</label>
+        <textarea id="relEvents" placeholder="例：&#10;· 第 10 天：第一次單獨吃飯&#10;· 第 30 天：他喝醉時傳了語音&#10;· 第 45 天：一起看電影，他牽了我的手"></textarea>
+
+        <label>好感度 / 關係階段</label>
+        <input type="text" id="relAffinity" placeholder="例：好感度 78/100，處於「曖昧後期」">
+        <div class="field-hint">可用文字或數值描述，AI 會參考這個調整回覆親密度</div>
       </div>
 
       <!-- ===== NPC ===== -->
       <div class="char-section">
-        <h4>상대방 캐릭터 <span class="badge">NPC</span></h4>
+        <h4>對方角色 <span class="badge">NPC</span></h4>
         <div class="avatar-row">
-          <div class="avatar-preview" id="npcAvPreview" title="클릭하여 업로드">사진</div>
+          <div class="avatar-preview" id="npcAvPreview" title="點擊上傳">照片</div>
           <div class="avatar-actions">
-            <button id="npcAvBtn">📷 사진 업로드</button>
-            <button id="npcAvClear" class="danger">✕ 사진 제거</button>
+            <button id="npcAvBtn">📷 上傳照片</button>
+            <button id="npcAvClear" class="danger">✕ 移除照片</button>
           </div>
           <input type="file" id="npcAvFile" class="file-input-hidden" accept="image/*">
         </div>
-        <label>이름</label>
-        <input type="text" id="npcName" placeholder="예: 박지민">
-        <label>Instagram 사용자명 (@ 없이)</label>
-        <input type="text" id="npcUsername" placeholder="예: jimin_0fficial">
-        <label>캐릭터 성격 / 말투 / 습관</label>
-        <textarea id="npcPersona" placeholder="예: 밝고 장난스러운 성격. 이모지 잘 씀. 답장 빠른 편이지만 알바 시간엔 느림. 츤데레. 커피 좋아함."></textarea>
+        <label>名字</label>
+        <input type="text" id="npcName" placeholder="例：박지민">
+
+        <label>Instagram 使用者名稱（不含 @）</label>
+        <input type="text" id="npcUsername" placeholder="例：jimin_0fficial">
+
+        <label>性格 / 說話風格</label>
+        <textarea id="npcPersona" placeholder="例：開朗、愛開玩笑，很常用 emoji。回訊息快，但打工時會慢。傲嬌。喜歡咖啡。"></textarea>
+
+        <label>口頭禪 / 常用語</label>
+        <textarea id="npcPhrases" placeholder="例：&#10;· 常用「ㅋㅋㅋ」「진짜?」「헐」&#10;· 生氣時會說「아 진짜…」&#10;· 撒嬌時會用「~잖아」"></textarea>
+
+        <label>禁止事項</label>
+        <textarea id="npcForbidden" placeholder="例：&#10;· 絕對不會說「사랑해」（目前階段）&#10;· 不會主動提「交往」&#10;· 不用粗話，最多「바보」"></textarea>
+        <div class="field-hint">這些是角色「絕對不會做 / 說」的事，AI 會避開</div>
       </div>
 
       <!-- ===== Player ===== -->
       <div class="char-section">
-        <h4>내 캐릭터 <span class="badge blue">PLAYER</span></h4>
+        <h4>我的角色 <span class="badge blue">PLAYER</span></h4>
         <div class="avatar-row">
-          <div class="avatar-preview" id="playerAvPreview" title="클릭하여 업로드">사진</div>
+          <div class="avatar-preview" id="playerAvPreview" title="點擊上傳">照片</div>
           <div class="avatar-actions">
-            <button id="playerAvBtn">📷 사진 업로드</button>
-            <button id="playerAvClear" class="danger">✕ 사진 제거</button>
+            <button id="playerAvBtn">📷 上傳照片</button>
+            <button id="playerAvClear" class="danger">✕ 移除照片</button>
           </div>
           <input type="file" id="playerAvFile" class="file-input-hidden" accept="image/*">
         </div>
-        <label>내 이름</label>
-        <input type="text" id="playerName" placeholder="예: 나">
-        <label>내 캐릭터 설정 (선택)</label>
-        <textarea id="playerPersona" placeholder="예: 25살 직장인, 무뚝뚝하지만 지민이 앞에선 다정해짐. 게임 좋아함."></textarea>
+        <label>我的名字</label>
+        <input type="text" id="playerName" placeholder="例：我">
+
+        <label>我的設定（選填）</label>
+        <textarea id="playerPersona" placeholder="例：25 歲上班族，話不多但對他特別溫柔。喜歡打遊戲。"></textarea>
+      </div>
+
+      <!-- ===== 劇情分支 ===== -->
+      <div class="char-section highlight">
+        <h4>劇情分支 / 結局 <span class="badge orange">BRANCH</span></h4>
+
+        <label>分支 / 結局條件</label>
+        <textarea id="relBranches" placeholder="例：&#10;· 好感度 > 90 且主動告白 → 交往 END&#10;· 好感度 &lt; 30 連續三天不回 → 冷淡 END&#10;· 提及前女友超過 3 次 → 吵架分支"></textarea>
+        <div class="field-hint">用來控制劇情走向的規則，AI 會依照這些判斷</div>
       </div>
 
       <div class="row2">
-        <button class="cancel" id="btnResetChars">↺ 초기화</button>
-        <button class="ok" id="btnSaveChars">저장</button>
+        <button class="cancel" id="btnResetChars">↺ 重置</button>
+        <button class="ok" id="btnSaveChars">儲存</button>
       </div>
     </div>
   </div>
@@ -314,22 +364,30 @@ body{
 
 <script>
 /* ============================================================
-   1. 기본값
+   1. 預設值
    ============================================================ */
 const DEFAULT_NPC = {
   name: '박지민', username: 'jimin_0fficial', avatar: null,
   gradient: 'linear-gradient(135deg,#c9d6e2,#9fb3c8)',
-  persona: '밝고 장난스러운 성격. 이모지 잘 씀. 답장 빠른 편이지만 알바 시간엔 느림. 츤데레. 커피 좋아함.'
+  persona: '開朗、愛開玩笑，很常用 emoji。回訊息快，但打工時會慢。傲嬌。喜歡咖啡。',
+  phrases: '',
+  forbidden: ''
 };
 const DEFAULT_PLAYER = {
-  name: '나', avatar: null,
+  name: '我', avatar: null,
   gradient: 'linear-gradient(135deg,#FFB86B,#FF5E7E)',
   persona: ''
 };
 const DEFAULT_REL = {
   type: '',
   summary: '',
-  story: ''
+  address: '',
+  story: '',
+  timeline: '',
+  scene: '',
+  events: '',
+  affinity: '',
+  branches: ''
 };
 
 function load(key, def) {
@@ -349,7 +407,7 @@ function avatarStyle(ch) {
 }
 
 /* ============================================================
-   2. 초기 대화
+   2. 初始對話
    ============================================================ */
 let MESSAGES = [
   { id:'m1', side:'npc',    time:'21:03', kr:'오늘 뭐 해?',                    zh:'今天要幹嘛？' },
@@ -359,7 +417,7 @@ let MESSAGES = [
 ];
 
 /* ============================================================
-   3. 전역
+   3. 全域變數
    ============================================================ */
 let platform = 'kakao';
 let isTyping = false;
@@ -377,7 +435,7 @@ const nowTime = () => {
 };
 
 /* ============================================================
-   4. 렌더
+   4. 渲染聊天室
    ============================================================ */
 function render() {
   const npc = getNPC();
@@ -444,7 +502,7 @@ function render() {
 }
 
 /* ============================================================
-   5. 모달
+   5. 設定彈窗
    ============================================================ */
 const modalBg = document.getElementById('modalBg');
 const keyInput = document.getElementById('keyInput');
@@ -471,22 +529,24 @@ document.querySelectorAll('.modal-tabs button').forEach(btn => {
   };
 });
 
-/* API */
+/* ============================================================
+   6. API 儲存 / 測試
+   ============================================================ */
 document.getElementById('btnSaveApi').onclick = () => {
   const k = keyInput.value.trim();
-  if (!k) { alert('API Key를 입력해 주세요.'); return; }
+  if (!k) { alert('請先輸入 API Key'); return; }
   localStorage.setItem('openai_api_key', k);
   localStorage.setItem('openai_model', modelSelect.value);
-  alert('API 설정이 저장되었습니다!');
+  alert('API 設定已儲存！');
 };
 
 document.getElementById('btnTest').onclick = async () => {
   const k = keyInput.value.trim();
   const m = modelSelect.value;
-  if (!k) { showTest('err', '❌ API Key를 먼저 입력해 주세요.'); return; }
+  if (!k) { showTest('err', '❌ 請先輸入 API Key'); return; }
   const btn = document.getElementById('btnTest');
   btn.disabled = true;
-  showTest('loading', '⏳ 테스트 중…');
+  showTest('loading', '⏳ 測試中…');
   try {
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -500,14 +560,14 @@ document.getElementById('btnTest').onclick = async () => {
     const data = await res.json();
     if (!res.ok) {
       const msg = data.error && data.error.message ? data.error.message : ('HTTP ' + res.status);
-      showTest('err', '❌ 실패: ' + msg);
+      showTest('err', '❌ 失敗：' + msg);
     } else if (data.choices && data.choices[0]) {
-      showTest('ok', '✅ 성공! 모델: ' + (data.model || m));
+      showTest('ok', '✅ 成功！模型：' + (data.model || m));
     } else {
-      showTest('err', '❌ 알 수 없는 응답');
+      showTest('err', '❌ 未知回應');
     }
   } catch (err) {
-    showTest('err', '❌ 네트워크 오류: ' + err.message);
+    showTest('err', '❌ 網路錯誤：' + err.message);
   } finally { btn.disabled = false; }
 };
 
@@ -517,12 +577,18 @@ function showTest(type, text) {
 }
 
 /* ============================================================
-   6. 캐릭터 + 관계 폼
+   7. 角色表單
    ============================================================ */
 function fillCharForm() {
-  // 关系
+  // 關係
   document.getElementById('relSummary').value = pendingRel.summary || '';
+  document.getElementById('relAddress').value = pendingRel.address || '';
   document.getElementById('relStory').value   = pendingRel.story || '';
+  document.getElementById('relTimeline').value= pendingRel.timeline || '';
+  document.getElementById('relScene').value   = pendingRel.scene || '';
+  document.getElementById('relEvents').value  = pendingRel.events || '';
+  document.getElementById('relAffinity').value= pendingRel.affinity || '';
+  document.getElementById('relBranches').value= pendingRel.branches || '';
   document.querySelectorAll('#relChips button').forEach(b => {
     b.classList.toggle('on', b.dataset.rel === pendingRel.type);
   });
@@ -531,6 +597,8 @@ function fillCharForm() {
   document.getElementById('npcName').value = pendingNPC.name || '';
   document.getElementById('npcUsername').value = pendingNPC.username || '';
   document.getElementById('npcPersona').value = pendingNPC.persona || '';
+  document.getElementById('npcPhrases').value = pendingNPC.phrases || '';
+  document.getElementById('npcForbidden').value = pendingNPC.forbidden || '';
   updateAvPreview('npcAvPreview', pendingNPC);
 
   // Player
@@ -562,7 +630,7 @@ function updateAvPreview(id, ch) {
     el.textContent = '';
   } else {
     el.style.background = ch.gradient || 'linear-gradient(135deg,#333,#555)';
-    el.textContent = '사진';
+    el.textContent = '照片';
   }
 }
 
@@ -594,7 +662,7 @@ document.getElementById('npcAvPreview').onclick = () => npcAvFile.click();
 npcAvFile.onchange = async e => {
   const f = e.target.files[0]; if (!f) return;
   try { pendingNPC.avatar = await compressImage(f); updateAvPreview('npcAvPreview', pendingNPC); }
-  catch(err) { alert('이미지 처리 실패: ' + err.message); }
+  catch(err) { alert('圖片處理失敗：' + err.message); }
   npcAvFile.value = '';
 };
 document.getElementById('npcAvClear').onclick = () => {
@@ -607,7 +675,7 @@ document.getElementById('playerAvPreview').onclick = () => playerAvFile.click();
 playerAvFile.onchange = async e => {
   const f = e.target.files[0]; if (!f) return;
   try { pendingPlayer.avatar = await compressImage(f); updateAvPreview('playerAvPreview', pendingPlayer); }
-  catch(err) { alert('이미지 처리 실패: ' + err.message); }
+  catch(err) { alert('圖片處理失敗：' + err.message); }
   playerAvFile.value = '';
 };
 document.getElementById('playerAvClear').onclick = () => {
@@ -615,14 +683,22 @@ document.getElementById('playerAvClear').onclick = () => {
 };
 
 document.getElementById('btnSaveChars').onclick = () => {
-  // 关系
+  // 關係
   pendingRel.summary = document.getElementById('relSummary').value.trim();
+  pendingRel.address = document.getElementById('relAddress').value.trim();
   pendingRel.story   = document.getElementById('relStory').value.trim();
+  pendingRel.timeline= document.getElementById('relTimeline').value.trim();
+  pendingRel.scene   = document.getElementById('relScene').value.trim();
+  pendingRel.events  = document.getElementById('relEvents').value.trim();
+  pendingRel.affinity= document.getElementById('relAffinity').value.trim();
+  pendingRel.branches= document.getElementById('relBranches').value.trim();
 
   // NPC
   pendingNPC.name = document.getElementById('npcName').value.trim() || DEFAULT_NPC.name;
   pendingNPC.username = document.getElementById('npcUsername').value.trim() || DEFAULT_NPC.username;
   pendingNPC.persona = document.getElementById('npcPersona').value.trim();
+  pendingNPC.phrases = document.getElementById('npcPhrases').value.trim();
+  pendingNPC.forbidden = document.getElementById('npcForbidden').value.trim();
 
   // Player
   pendingPlayer.name = document.getElementById('playerName').value.trim() || DEFAULT_PLAYER.name;
@@ -633,12 +709,12 @@ document.getElementById('btnSaveChars').onclick = () => {
     localStorage.setItem('char_player', JSON.stringify(pendingPlayer));
     localStorage.setItem('char_rel', JSON.stringify(pendingRel));
     render();
-    alert('설정이 저장되었습니다!');
-  } catch(err) { alert('저장 실패: ' + err.message); }
+    alert('設定已儲存！');
+  } catch(err) { alert('儲存失敗：' + err.message); }
 };
 
 document.getElementById('btnResetChars').onclick = () => {
-  if (!confirm('캐릭터 · 관계 설정을 초기값으로 되돌릴까요?')) return;
+  if (!confirm('確定要將角色與關係設定重設為預設值嗎？')) return;
   localStorage.removeItem('char_npc');
   localStorage.removeItem('char_player');
   localStorage.removeItem('char_rel');
@@ -647,7 +723,7 @@ document.getElementById('btnResetChars').onclick = () => {
 };
 
 /* ============================================================
-   7. OpenAI 호출 (관계 · 배경 포함)
+   8. OpenAI 呼叫（帶入所有欄位）
    ============================================================ */
 async function callAI(userMessage) {
   const apiKey = localStorage.getItem('openai_api_key');
@@ -660,25 +736,43 @@ async function callAI(userMessage) {
 
   let sys = '';
 
-  // 角色
-  sys += `너는 "${npc.name}"이야. `;
-  if (npc.persona) sys += `[너의 성격/말투] ${npc.persona} `;
+  // 角色設定
+  sys += `你是「${npc.name}」。\n`;
+  if (npc.persona) sys += `【你的性格 / 說話風格】${npc.persona}\n`;
+  if (npc.phrases) sys += `【你的口頭禪 / 常用語】${npc.phrases}\n`;
+  if (npc.forbidden) sys += `【禁止事項（絕對不能做 / 說）】${npc.forbidden}\n`;
 
-  // 我
-  sys += `상대방은 "${player.name}"이야. `;
-  if (player.persona) sys += `[상대방 설정] ${player.persona} `;
+  // 玩家設定
+  sys += `\n對方是「${player.name}」。\n`;
+  if (player.persona) sys += `【對方設定】${player.persona}\n`;
 
-  // 关系与背景
-  if (rel.type || rel.summary || rel.story) {
-    sys += '\n[두 사람의 관계 및 배경]\n';
-    if (rel.type)    sys += `관계 유형: ${rel.type}\n`;
-    if (rel.summary) sys += `관계 요약: ${rel.summary}\n`;
-    if (rel.story)   sys += `배경 설정: ${rel.story}\n`;
-    sys += `위 관계와 배경에 맞는 말투, 호칭, 감정선을 유지하면서 대화해. `;
+  // 關係與背景
+  if (rel.type || rel.summary || rel.address || rel.story) {
+    sys += `\n【兩人的關係與背景】\n`;
+    if (rel.type)    sys += `· 關係類型：${rel.type}\n`;
+    if (rel.summary) sys += `· 關係摘要：${rel.summary}\n`;
+    if (rel.address) sys += `· 稱呼方式：${rel.address}\n`;
+    if (rel.story)   sys += `· 背景設定：${rel.story}\n`;
   }
 
-  // 格式
-  sys += `\n지금 사용자와 채팅 앱으로 대화하고 있어. 사용자의 말에 자연스러운 한국어로 답장해. 반드시 다음 형식으로만 답해: 한국어 원문|繁體中文翻譯. 다른 설명은 하지 마.`;
+  // 目前狀態
+  if (rel.timeline || rel.scene || rel.events || rel.affinity) {
+    sys += `\n【目前狀態】\n`;
+    if (rel.timeline) sys += `· 時間線 / 劇情進度：${rel.timeline}\n`;
+    if (rel.scene)    sys += `· 目前場景：${rel.scene}\n`;
+    if (rel.events)   sys += `· 重要事件記錄：\n${rel.events}\n`;
+    if (rel.affinity) sys += `· 好感度 / 關係階段：${rel.affinity}\n`;
+  }
+
+  // 劇情分支
+  if (rel.branches) {
+    sys += `\n【劇情分支 / 結局條件】\n${rel.branches}\n`;
+  }
+
+  // 輸出格式
+  sys += `\n現在你和對方正在用聊天 App 對話。請依照上述所有設定，用自然的韓語回覆。`;
+  sys += `\n回覆格式必須嚴格為：韓語原文|繁體中文翻譯`;
+  sys += `\n不要有多餘的說明或解釋。`;
 
   try {
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -701,21 +795,21 @@ async function callAI(userMessage) {
     const data = await res.json();
     if (!res.ok) {
       const msg = data.error && data.error.message ? data.error.message : ('HTTP ' + res.status);
-      console.error('OpenAI 오류:', data);
-      alert('API 오류: ' + msg);
+      console.error('OpenAI 錯誤:', data);
+      alert('API 錯誤：' + msg);
       return '미안, 지금 답장 못 해 😢|抱歉，現在沒辦法回你 😢';
     }
     if (data.choices && data.choices[0] && data.choices[0].message) return data.choices[0].message.content;
     return '미안, 지금 답장 못 해 😢|抱歉，現在沒辦法回你 😢';
   } catch (err) {
-    console.error('API 호출 실패:', err);
-    alert('네트워크 오류: ' + err.message);
+    console.error('API 呼叫失敗:', err);
+    alert('網路錯誤：' + err.message);
     return '미안, 지금 답장 못 해 😢|抱歉，現在沒辦法回你 😢';
   }
 }
 
 /* ============================================================
-   8. 메시지 전송
+   9. 訊息傳送
    ============================================================ */
 async function send() {
   const inp = document.getElementById('inp');
@@ -747,7 +841,7 @@ async function send() {
 }
 
 /* ============================================================
-   9. 이벤트
+   10. 事件綁定
    ============================================================ */
 document.getElementById('tabKakao').onclick = () => {
   platform = 'kakao';
