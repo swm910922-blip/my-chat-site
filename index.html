@@ -2,21 +2,36 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>KKT / IG DM 채팅 시뮬레이터</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  width:100%;
+  height:100vh;
+  height:100dvh;
+  overflow:hidden;
+}
 body{
-  background:#0b0b0e;min-height:100vh;
-  display:flex;align-items:center;justify-content:center;padding:24px;
+  background:#0b0b0e;
   font-family:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR","PingFang TC","Microsoft JhengHei",sans-serif;
 }
-.wrap{display:flex;flex-direction:column;align-items:center;gap:18px}
+.wrap{
+  width:100%;
+  height:100vh;
+  height:100dvh;
+  display:flex;
+  flex-direction:column;
+}
+
 .phone{
-  width:390px;height:780px;border-radius:40px;overflow:hidden;
-  display:flex;flex-direction:column;position:relative;
-  box-shadow:0 30px 80px rgba(0,0,0,.85),0 0 0 10px #17171c;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  position:relative;
   transition:background .25s;
+  overflow:hidden;
 }
 .phone.kakao{
   --bg:#B2C7D9; --hdr-bg:#B2C7D9; --hdr-fg:#16181a; --hdr-sub:#4c5b68;
@@ -38,8 +53,9 @@ body{
 .hdr{
   flex:0 0 auto;background:var(--hdr-bg);color:var(--hdr-fg);
   display:flex;align-items:center;gap:10px;
-  padding:16px 14px 12px;
+  padding:14px 18px 12px;
   border-bottom:1px solid rgba(128,128,128,.16);
+  padding-top:calc(14px + env(safe-area-inset-top));
 }
 .hdr .back{font-size:26px;line-height:1;opacity:.7;margin-top:-4px;cursor:pointer}
 .hdr .avatar{width:34px;height:34px;border-radius:50%;flex:0 0 auto;background-size:cover;background-position:center}
@@ -47,22 +63,22 @@ body{
 .hdr .name{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hdr .sub{font-size:11.5px;color:var(--hdr-sub);margin-top:1px}
 .hdr .tag{font-size:9.5px;letter-spacing:.1em;opacity:.5;font-weight:700}
-.hdr .gear{font-size:17px;cursor:pointer;opacity:.55;margin-left:2px;padding:4px;border-radius:50%;transition:.18s}
+.hdr .gear{font-size:18px;cursor:pointer;opacity:.55;margin-left:4px;padding:5px;border-radius:50%;transition:.18s}
 .hdr .gear:hover{opacity:1;background:rgba(128,128,128,.15)}
 
 .aff-strip{
   flex:0 0 auto;background:var(--strip-bg);
   border-bottom:1px solid rgba(128,128,128,.14);
-  padding:6px 14px;cursor:pointer;transition:.25s;
+  padding:6px 18px;cursor:pointer;transition:.25s;
   display:flex;align-items:center;gap:10px;user-select:none;overflow:hidden;
 }
 .aff-strip:hover{background:rgba(128,128,128,.08)}
-.aff-strip.collapsed{padding:6px 14px}
+.aff-strip.collapsed{padding:6px 18px}
 .aff-strip.collapsed .aff-detail{display:none}
 .aff-strip.collapsed .aff-ring{width:26px;height:26px}
 .aff-strip.collapsed .aff-stage-small{display:block}
 .aff-strip:not(.collapsed) .aff-stage-small{display:none}
-.aff-strip:not(.collapsed){padding:10px 14px 12px}
+.aff-strip:not(.collapsed){padding:10px 18px 12px}
 .aff-strip:not(.collapsed) .aff-ring{width:52px;height:52px}
 .aff-ring{position:relative;flex:0 0 auto;transition:width .25s, height .25s}
 .aff-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
@@ -89,7 +105,7 @@ body{
 .narr-bar{
   flex:0 0 auto;background:#e6e6e8;
   border-bottom:1px solid rgba(150,150,150,.25);
-  padding:7px 12px;display:flex;align-items:flex-start;gap:8px;
+  padding:7px 16px;display:flex;align-items:flex-start;gap:8px;
   cursor:pointer;transition:.2s;position:relative;z-index:5;
 }
 .narr-bar:hover{background:#dcdce0}
@@ -123,22 +139,22 @@ body{
 
 .chat{
   flex:1;background:var(--bg);overflow-y:auto;
-  padding:16px 12px 24px;display:flex;flex-direction:column;position:relative;
+  padding:16px 16px 24px;display:flex;flex-direction:column;position:relative;
 }
 .chat::-webkit-scrollbar{width:0}
 
-.row{display:flex;gap:8px;margin-top:12px;align-items:flex-end}
+.row{display:flex;gap:8px;margin-top:12px;align-items:flex-end;max-width:100%}
 .row.cont{margin-top:3px}
 .row.player{flex-direction:row-reverse}
-.row .av{width:34px;height:34px;border-radius:50%;flex:0 0 auto;background-size:cover;background-position:center}
+.row .av{width:36px;height:36px;border-radius:50%;flex:0 0 auto;background-size:cover;background-position:center}
 .row.cont .av{visibility:hidden}
-.row .col{display:flex;flex-direction:column;max-width:76%;min-width:0}
+.row .col{display:flex;flex-direction:column;max-width:72%;min-width:0}
 .row.player .col{align-items:flex-end}
 .row .sender{font-size:12px;color:var(--hdr-sub);margin-bottom:4px;padding-left:3px}
 .line{display:flex;align-items:flex-end;gap:6px}
 .row.player .line{flex-direction:row-reverse}
 .bubble{
-  padding:9px 13px;border-radius:18px;font-size:14px;line-height:1.45;
+  padding:9px 13px;border-radius:18px;font-size:14.5px;line-height:1.45;
   word-break:break-word;background:var(--npc-bg);color:var(--npc-fg);
   box-shadow:0 1px 2px rgba(0,0,0,.07);
 }
@@ -146,7 +162,7 @@ body{
 .row.npc:not(.cont) .bubble{border-top-left-radius:6px}
 .row.player:not(.cont) .bubble{border-top-right-radius:6px}
 .kr{font-family:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif}
-.zh{font-size:12px;opacity:.6;margin-top:3px;line-height:1.4}
+.zh{font-size:12.5px;opacity:.6;margin-top:3px;line-height:1.4}
 .meta{font-size:11px;color:var(--meta);display:flex;gap:5px;white-space:nowrap;padding-bottom:3px}
 .st-read{opacity:.55}
 .st-unread{color:#e8a33d;font-weight:600}
@@ -154,18 +170,19 @@ body{
 
 .composer{
   flex:0 0 auto;background:var(--composer-bg);
-  padding:10px 12px 18px;display:flex;gap:8px;align-items:center;
+  padding:10px 16px 16px;display:flex;gap:8px;align-items:center;
   border-top:1px solid rgba(128,128,128,.16);position:relative;
+  padding-bottom:calc(16px + env(safe-area-inset-bottom));
 }
 .composer input{
   flex:1;background:var(--input-bg);border:none;outline:none;
-  border-radius:20px;padding:11px 15px;font-size:14px;
+  border-radius:22px;padding:12px 18px;font-size:15px;
   color:var(--hdr-fg);font-family:inherit;
 }
 .composer input::placeholder{color:#8e8e8e}
 .composer button{
-  background:var(--accent);color:#111;border:none;border-radius:20px;
-  padding:11px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;
+  background:var(--accent);color:#111;border:none;border-radius:22px;
+  padding:12px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;
 }
 .phone.ig .composer button{color:#fff}
 
@@ -196,9 +213,10 @@ body{
   to{opacity:1;transform:translateY(0)}
 }
 .narr-overlay-head{
-  flex:0 0 auto;padding:18px 20px 14px;
+  flex:0 0 auto;padding:18px 24px 14px;
   border-bottom:1px solid rgba(255,255,255,.08);
   display:flex;align-items:center;justify-content:space-between;color:#fff;
+  padding-top:calc(18px + env(safe-area-inset-top));
 }
 .narr-overlay-head h3{
   font-size:14px;font-weight:700;letter-spacing:.1em;color:#c0a0ff;
@@ -206,22 +224,23 @@ body{
 }
 .narr-overlay-close{
   background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff;
-  border-radius:999px;padding:5px 14px;font-size:12px;
+  border-radius:999px;padding:6px 16px;font-size:12.5px;
   cursor:pointer;font-family:inherit;transition:.15s;
 }
 .narr-overlay-close:hover{background:rgba(255,255,255,.1)}
 .narr-overlay-body{
-  flex:1;overflow-y:auto;padding:20px 24px 28px;
+  flex:1;overflow-y:auto;padding:24px 32px 40px;
   color:#e0d8f0;font-family:"PingFang TC","Microsoft JhengHei","Noto Serif TC","Georgia",serif;
-  font-size:13.5px;line-height:1.85;letter-spacing:.02em;text-align:justify;
+  font-size:14.5px;line-height:1.9;letter-spacing:.02em;text-align:justify;
+  max-width:720px;margin:0 auto;width:100%;
 }
 .narr-overlay-body::-webkit-scrollbar{width:6px}
 .narr-overlay-body::-webkit-scrollbar-thumb{background:rgba(160,108,255,.4);border-radius:3px}
-.narr-overlay-body p{margin:0 0 0.85em 0;text-indent:2em}
+.narr-overlay-body p{margin:0 0 0.9em 0;text-indent:2em}
 .narr-overlay-body p:last-child{margin-bottom:0}
 .narr-overlay-meta{
-  display:flex;align-items:center;gap:10px;margin-bottom:18px;
-  padding-bottom:14px;border-bottom:1px dashed rgba(160,108,255,.3);
+  display:flex;align-items:center;gap:10px;margin-bottom:20px;
+  padding-bottom:16px;border-bottom:1px dashed rgba(160,108,255,.3);
 }
 .narr-overlay-meta .time,.narr-overlay-meta .wc{
   font-size:11px;color:#8a8aa5;
@@ -230,75 +249,76 @@ body{
 .narr-overlay-meta .wc{margin-left:auto}
 
 .hist-drawer{
-  position:absolute;top:0;right:0;bottom:0;width:85%;max-width:340px;
+  position:absolute;top:0;right:0;bottom:0;width:100%;max-width:420px;
   background:#14141c;z-index:300;transform:translateX(100%);
   transition:transform .3s cubic-bezier(.2,.9,.3,1);
   display:flex;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.5);
 }
 .hist-drawer.show{transform:translateX(0)}
 .hist-head{
-  flex:0 0 auto;padding:16px 18px;
+  flex:0 0 auto;padding:18px 22px;
   display:flex;align-items:center;justify-content:space-between;
   color:#fff;border-bottom:1px solid #26262e;
+  padding-top:calc(18px + env(safe-area-inset-top));
 }
 .hist-head h3{
-  font-size:13px;font-weight:700;letter-spacing:.1em;color:#c0a0ff;
+  font-size:13.5px;font-weight:700;letter-spacing:.1em;color:#c0a0ff;
   font-family:"PingFang TC","Microsoft JhengHei",sans-serif;
 }
 .hist-close{
   background:transparent;border:none;color:#8e8e8e;
-  font-size:20px;cursor:pointer;padding:0 6px;font-family:inherit;
+  font-size:22px;cursor:pointer;padding:0 6px;font-family:inherit;
 }
 .hist-close:hover{color:#fff}
-.hist-body{flex:1;overflow-y:auto;padding:12px 12px 20px}
+.hist-body{flex:1;overflow-y:auto;padding:14px 14px 24px}
 .hist-body::-webkit-scrollbar{width:5px}
 .hist-body::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
 .hist-empty{
-  text-align:center;color:#666;font-size:12px;padding:40px 20px;line-height:1.7;
+  text-align:center;color:#666;font-size:12.5px;padding:40px 20px;line-height:1.7;
 }
 .hist-item{
   background:#1c1c22;border:1px solid #2a2a33;border-radius:10px;
-  padding:12px;margin-bottom:10px;cursor:pointer;transition:.15s;
+  padding:14px;margin-bottom:10px;cursor:pointer;transition:.15s;
 }
 .hist-item:hover{background:#222229;border-color:#4C8BF5}
-.hist-item-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
-.hist-item-time{font-size:10.5px;color:#8e8e8e;font-family:"PingFang TC","Microsoft JhengHei",sans-serif}
+.hist-item-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.hist-item-time{font-size:11px;color:#8e8e8e;font-family:"PingFang TC","Microsoft JhengHei",sans-serif}
 .hist-item-text{
-  font-size:11px;color:#bcbcc4;line-height:1.55;
+  font-size:12px;color:#bcbcc4;line-height:1.6;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;
   overflow:hidden;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;
 }
-.hist-item-num{font-size:10px;color:#666;margin-top:6px;font-family:"PingFang TC","Microsoft JhengHei",sans-serif}
+.hist-item-num{font-size:10.5px;color:#666;margin-top:8px;font-family:"PingFang TC","Microsoft JhengHei",sans-serif}
 
 .start-screen{
   flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:40px 24px;text-align:center;gap:14px;animation:fadeIn .5s ease;
 }
-.start-icon{font-size:48px;margin-bottom:6px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.25))}
-.start-title{font-size:20px;font-weight:700;margin-bottom:4px}
+.start-icon{font-size:56px;margin-bottom:8px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.25))}
+.start-title{font-size:22px;font-weight:700;margin-bottom:4px}
 .phone.kakao .start-title{color:#1a2530}
 .phone.ig .start-title{color:#fff}
-.start-desc{font-size:13px;line-height:1.7;max-width:260px;margin-bottom:8px}
+.start-desc{font-size:13.5px;line-height:1.7;max-width:320px;margin-bottom:8px}
 .phone.kakao .start-desc{color:#4a5a68}
 .phone.ig .start-desc{color:#8e8e8e}
 .start-summary{
-  background:rgba(255,255,255,.35);border-radius:10px;padding:10px 14px;
-  font-size:11.5px;line-height:1.7;color:#3a4a58;max-width:280px;text-align:left;margin-bottom:6px;
+  background:rgba(255,255,255,.35);border-radius:10px;padding:12px 16px;
+  font-size:12px;line-height:1.8;color:#3a4a58;max-width:320px;text-align:left;margin-bottom:6px;
 }
 .phone.ig .start-summary{background:rgba(255,255,255,.06);color:#bcbcc4}
 .start-summary .k{color:#7a8a98;font-weight:600}
 .phone.ig .start-summary .k{color:#8e8e8e}
 .start-btn{
   background:linear-gradient(135deg,#a06cff,#4C8BF5);color:#fff;border:none;
-  border-radius:14px;padding:14px 40px;font-size:15px;font-weight:700;cursor:pointer;
+  border-radius:14px;padding:15px 48px;font-size:15.5px;font-weight:700;cursor:pointer;
   font-family:inherit;letter-spacing:.05em;
-  box-shadow:0 8px 24px rgba(120,90,220,.4);transition:.2s;margin-top:6px;
+  box-shadow:0 8px 24px rgba(120,90,220,.4);transition:.2s;margin-top:8px;
 }
 .start-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(120,90,220,.5)}
 .start-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
 .start-btn-secondary{
   background:transparent;color:#8e8e8e;border:none;padding:10px 20px;
-  font-size:12.5px;cursor:pointer;font-family:inherit;transition:.15s;
+  font-size:13px;cursor:pointer;font-family:inherit;transition:.15s;
   text-decoration:underline;text-underline-offset:4px;
 }
 .start-btn-secondary:hover{color:#bbb}
@@ -310,7 +330,7 @@ body{
 
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:999;padding:20px}
 .modal-bg.show{display:flex}
-.modal{background:#1c1c22;border:1px solid #2a2a33;border-radius:16px;padding:22px;width:100%;max-width:420px;color:#fff;max-height:90vh;overflow-y:auto}
+.modal{background:#1c1c22;border:1px solid #2a2a33;border-radius:16px;padding:22px;width:100%;max-width:440px;color:#fff;max-height:90vh;overflow-y:auto}
 .modal::-webkit-scrollbar{width:6px}
 .modal::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
 .modal label{display:block;font-size:12px;color:#9a9aa5;margin-bottom:6px;margin-top:12px}
@@ -396,7 +416,6 @@ body{
 .style-chips button:hover{border-color:#a06cff;color:#c0a0ff}
 .style-chips button.on{background:#a06cff;color:#fff;border-color:#a06cff}
 
-/* 開關列（介面設定用） */
 .toggle-row{
   display:flex;align-items:center;justify-content:space-between;
   padding:10px 0;border-bottom:1px solid #26262e;
@@ -430,6 +449,13 @@ body{
   font-weight:600;margin-top:8px;
 }
 .danger-btn:hover{background:rgba(255,90,90,.2)}
+
+/* 桌機寬螢幕最佳化 */
+@media (min-width: 900px){
+  .chat{padding:20px 12%;}
+  .narr-overlay-body{padding:32px 40px 48px;}
+  .hist-drawer{max-width:480px;}
+}
 </style>
 </head>
 <body>
@@ -470,7 +496,6 @@ body{
       <button data-tab="drama">劇情引擎</button>
     </div>
 
-    <!-- 伺服器 -->
     <div class="modal-tab-content on" id="tab-api">
       <label>模型選擇</label>
       <select id="modelSelect">
@@ -496,7 +521,6 @@ body{
       <div class="tip">✅ API Key 已安全地保存在伺服器上。</div>
     </div>
 
-    <!-- 介面（新） -->
     <div class="modal-tab-content" id="tab-ui">
       <div class="char-section highlight" style="margin-top:0">
         <h4>平台 <span class="badge purple">PLATFORM</span></h4>
@@ -529,7 +553,6 @@ body{
       </div>
     </div>
 
-    <!-- 角色 -->
     <div class="modal-tab-content" id="tab-chars">
       <div class="char-section highlight">
         <h4>關係與背景 <span class="badge pink">RELATION</span></h4>
@@ -594,7 +617,6 @@ body{
       </div>
     </div>
 
-    <!-- 劇情引擎 -->
     <div class="modal-tab-content" id="tab-drama">
       <div class="char-section highlight" style="margin-top:0">
         <h4>戲劇強度 <span class="badge purple">DRAMA</span></h4>
@@ -634,9 +656,6 @@ body{
 </div>
 
 <script>
-/* ============================================================
-   預設值
-   ============================================================ */
 const DEFAULT_NPC = {
   name: '박지민', username: 'jimin_0fficial', avatar: null,
   gradient: 'linear-gradient(135deg,#c9d6e2,#9fb3c8)',
@@ -684,9 +703,6 @@ function avatarStyle(ch) {
   return `background:${ch.gradient};`;
 }
 
-/* ============================================================
-   狀態
-   ============================================================ */
 let MESSAGES = [];
 let platform = localStorage.getItem('platform') || 'kakao';
 let isTyping = false;
@@ -757,9 +773,6 @@ function getAllNarratives() {
   }));
 }
 
-/* ============================================================
-   好感度條
-   ============================================================ */
 function renderAffStrip() {
   const strip = document.getElementById('affStrip');
   if (!storyStarted) { strip.style.display = 'none'; return; }
@@ -826,9 +839,6 @@ function showAffFloat(delta) {
   setTimeout(() => el.classList.remove('show'), 1600);
 }
 
-/* ============================================================
-   旁白面板
-   ============================================================ */
 function renderNarrBar() {
   const bar = document.getElementById('narrBar');
   if (!storyStarted || !showNarrative) { bar.style.display = 'none'; return; }
@@ -918,9 +928,6 @@ document.getElementById('histClose').onclick = () => {
   document.getElementById('histDrawer').classList.remove('show');
 };
 
-/* ============================================================
-   渲染
-   ============================================================ */
 function render() {
   const npc = getNPC();
   const player = getPlayer();
@@ -1011,9 +1018,6 @@ function render() {
   if (gear) gear.onclick = openModal;
 }
 
-/* ============================================================
-   開始故事
-   ============================================================ */
 async function startStory() {
   const npc = getNPC();
   if (!npc.name) { alert('請先設定對方角色的名字'); openModal(); return; }
@@ -1040,9 +1044,6 @@ async function startStory() {
   render();
 }
 
-/* ============================================================
-   彈窗
-   ============================================================ */
 const modalBg = document.getElementById('modalBg');
 const modelSelect = document.getElementById('modelSelect');
 const testResult = document.getElementById('testResult');
@@ -1068,7 +1069,6 @@ document.querySelectorAll('.modal-tabs button').forEach(btn => {
   };
 });
 
-/* 介面設定 tab 同步 */
 function syncUITab() {
   document.querySelectorAll('#platformChoice button').forEach(b => {
     b.classList.toggle('on', b.dataset.p === platform);
@@ -1321,9 +1321,6 @@ document.getElementById('btnResetChars').onclick = () => {
   fillCharForm(); fillDramaForm(); render();
 };
 
-/* ============================================================
-   AI 呼叫（重寫版，修正複述問題）
-   ============================================================ */
 async function callAI(userMessage, opening = false) {
   const model = localStorage.getItem('openai_model') || 'gpt-4o-mini';
   const lang = localStorage.getItem('reply_language') || 'ko';
@@ -1336,7 +1333,6 @@ async function callAI(userMessage, opening = false) {
 
   let sys = '';
 
-  /* ========== 身份說明（放最前面，最重要） ========== */
   sys += `# 【最優先規則】\n`;
   sys += `你是一位「文字遊戲主持人」，同時扮演角色「${npc.name}」。\n`;
   sys += `玩家扮演的角色是「${player.name}」。\n\n`;
@@ -1345,7 +1341,6 @@ async function callAI(userMessage, opening = false) {
   sys += `⚠️ 你絕對不可以複述、改寫、翻譯玩家的話。\n`;
   sys += `⚠️ 你的 [CHAT] 必須是「${npc.name} 作為角色會給出的回應」，內容要跟玩家的話有關，但用你自己的語氣、立場、情緒回應。\n\n`;
 
-  /* ========== 範例 ========== */
   sys += `# 【正確 vs 錯誤示範】\n`;
   sys += `假設玩家說：「今天上班好累」\n\n`;
   if (lang === 'zh') {
@@ -1356,7 +1351,6 @@ async function callAI(userMessage, opening = false) {
     sys += `✅ 正確（以 ${npc.name} 身份回應）：[CHAT]왜? 또 팀장한테 혼났어?|怎麼了？又被主管唸了？\n\n`;
   }
 
-  /* ========== 角色設定 ========== */
   sys += `# 【你扮演的角色：${npc.name}】\n`;
   if (npc.persona) sys += `· 性格 / 說話風格：${npc.persona}\n`;
   if (npc.phrases) sys += `· 口頭禪 / 常用語：${npc.phrases}\n`;
@@ -1393,7 +1387,6 @@ async function callAI(userMessage, opening = false) {
 
   if (rel.branches) sys += `\n# 【劇情分支 / 結局條件】\n${rel.branches}\n`;
 
-  /* 好感度 */
   sys += `\n# 【好感度系統】\n`;
   sys += `目前好感度：${affection} / 100（階段：${getStageName(affection)}）\n`;
   sys += `根據玩家訊息判斷好感度變化：\n`;
@@ -1530,9 +1523,6 @@ function parseAIResponse(raw) {
   return { kr, zh, narr: narrText, mood: moodText, affectionDelta };
 }
 
-/* ============================================================
-   發送
-   ============================================================ */
 async function send() {
   const inp = document.getElementById('inp');
   const v = inp.value.trim();
