@@ -254,13 +254,11 @@ body{
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <div class="modal-tabs">
-      <button class="on" data-tab="api">API 設定</button>
+      <button class="on" data-tab="api">伺服器設定</button>
       <button data-tab="chars">角色 · 關係設定</button>
     </div>
 
     <div class="modal-tab-content on" id="tab-api">
-      <label>OpenAI API Key</label>
-      <input id="keyInput" type="password" placeholder="sk-...">
       <label>模型選擇</label>
       <select id="modelSelect">
         <option value="gpt-4o-mini">gpt-4o-mini — 便宜 · 快速（推薦）</option>
@@ -270,14 +268,17 @@ body{
         <option value="gpt-4-turbo">gpt-4-turbo</option>
         <option value="gpt-3.5-turbo">gpt-3.5-turbo — 便宜</option>
       </select>
+
       <div class="test-result" id="testResult"></div>
+
       <div class="row2">
-        <button class="test" id="btnTest">🧪 測試</button>
+        <button class="test" id="btnTest">🧪 測試連線</button>
         <button class="ok" id="btnSaveApi">儲存</button>
       </div>
+
       <div class="tip">
-        API Key 只會儲存在瀏覽器中，不會傳送到其他地方。<br>
-        取得 Key：<a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>
+        ✅ API Key 已安全地保存在伺服器上，網頁端無法看到。<br>
+        若測試失敗，請確認伺服器已設定環境變數 <code>OPENAI_API_KEY</code>。
       </div>
     </div>
 
@@ -523,12 +524,10 @@ function render() {
    5. 彈窗
    ============================================================ */
 const modalBg = document.getElementById('modalBg');
-const keyInput = document.getElementById('keyInput');
 const modelSelect = document.getElementById('modelSelect');
 const testResult = document.getElementById('testResult');
 
 function openModal() {
-  keyInput.value = localStorage.getItem('openai_api_key') || '';
   modelSelect.value = localStorage.getItem('openai_model') || 'gpt-4o-mini';
   testResult.className = 'test-result'; testResult.textContent = '';
   pendingNPC = getNPC(); pendingPlayer = getPlayer(); pendingRel = getRel();
@@ -548,39 +547,34 @@ document.querySelectorAll('.modal-tabs button').forEach(btn => {
 });
 
 /* ============================================================
-   6. API
+   6. 模型儲存 / 測試
    ============================================================ */
 document.getElementById('btnSaveApi').onclick = () => {
-  const k = keyInput.value.trim();
-  if (!k) { alert('請先輸入 API Key'); return; }
-  localStorage.setItem('openai_api_key', k);
   localStorage.setItem('openai_model', modelSelect.value);
-  alert('API 設定已儲存！');
+  alert('模型設定已儲存！');
 };
 
 document.getElementById('btnTest').onclick = async () => {
-  const k = keyInput.value.trim();
   const m = modelSelect.value;
-  if (!k) { showTest('err', '❌ 請先輸入 API Key'); return; }
   const btn = document.getElementById('btnTest');
   btn.disabled = true;
-  showTest('loading', '⏳ 測試中…');
+  showTest('loading', '⏳ 正在連線伺服器…');
   try {
-    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    const res = await fetch('/api/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + k,
-        'OpenAI-Dangerous-Allow-Browser': 'true'
-      },
-      body: JSON.stringify({ model: m, messages: [{ role: 'user', content: 'ping' }], max_tokens: 5 })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: m,
+        messages: [{ role: 'user', content: 'ping' }],
+        max_tokens: 5
+      })
     });
     const data = await res.json();
     if (!res.ok) {
-      const msg = data.error && data.error.message ? data.error.message : ('HTTP ' + res.status);
+      const msg = (data.error && data.error.message) ? data.error.message : ('HTTP ' + res.status);
       showTest('err', '❌ 失敗：' + msg);
     } else if (data.choices && data.choices[0]) {
-      showTest('ok', '✅ 成功！模型：' + (data.model || m));
+      showTest('ok', '✅ 成功！伺服器正常，模型：' + m);
     } else {
       showTest('err', '❌ 未知回應');
     }
@@ -733,12 +727,10 @@ document.getElementById('btnResetChars').onclick = () => {
 };
 
 /* ============================================================
-   8. AI 呼叫（含劇情旁白）
+   8. 呼叫伺服器 API
    ============================================================ */
 async function callAI(userMessage) {
-  const apiKey = localStorage.getItem('openai_api_key');
   const model = localStorage.getItem('openai_model') || 'gpt-4o-mini';
-  if (!apiKey) { openModal(); return null; }
 
   const npc = getNPC();
   const player = getPlayer();
@@ -780,13 +772,9 @@ async function callAI(userMessage) {
   sys += `語氣與人稱必須與上述關係設定一致。`;
 
   try {
-    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    const res = await fetch('/api/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + apiKey,
-        'OpenAI-Dangerous-Allow-Browser': 'true'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: model,
         messages: [
@@ -799,9 +787,9 @@ async function callAI(userMessage) {
     });
     const data = await res.json();
     if (!res.ok) {
-      const msg = data.error && data.error.message ? data.error.message : ('HTTP ' + res.status);
-      console.error('OpenAI 錯誤:', data);
-      alert('API 錯誤：' + msg);
+      const msg = (data.error && data.error.message) ? data.error.message : ('HTTP ' + res.status);
+      console.error('伺服器回應錯誤:', data);
+      alert('伺服器錯誤：' + msg);
       return { kr:'미안, 지금 답장 못 해 😢', zh:'抱歉，現在沒辦法回你 😢', narr:'' };
     }
     if (data.choices && data.choices[0] && data.choices[0].message) {
@@ -809,7 +797,7 @@ async function callAI(userMessage) {
     }
     return { kr:'미안, 지금 답장 못 해 😢', zh:'抱歉，現在沒辦法回你 😢', narr:'' };
   } catch (err) {
-    console.error('API 呼叫失敗:', err);
+    console.error('呼叫失敗:', err);
     alert('網路錯誤：' + err.message);
     return { kr:'미안, 지금 답장 못 해 😢', zh:'抱歉，現在沒辦法回你 😢', narr:'' };
   }
