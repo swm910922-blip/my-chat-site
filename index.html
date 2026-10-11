@@ -158,7 +158,7 @@ body{
 .modal label{
   display:block;font-size:12px;color:#9a9aa5;margin-bottom:6px;margin-top:14px;
 }
-.modal input[type=text], .modal input[type=password], .modal select, .modal textarea{
+.modal input[type=text], .modal select, .modal textarea{
   width:100%;background:#0b0b0e;border:1px solid #2a2a33;border-radius:10px;
   padding:10px 13px;font-size:13px;color:#fff;outline:none;
   font-family:inherit;
@@ -191,7 +191,6 @@ body{
 .test-result.loading{background:rgba(255,255,255,.06);color:#ccc;border:1px solid rgba(255,255,255,.1)}
 
 .modal .tip{font-size:11px;color:#8e8e8e;margin-top:10px;line-height:1.5}
-.modal .tip a{color:#8ec5ff;text-decoration:none}
 
 /* 캐릭터 설정 */
 .char-section{
@@ -229,7 +228,6 @@ body{
 .avatar-actions .danger:hover{color:#ff5555}
 .file-input-hidden{display:none}
 
-/* 탭 */
 .modal-tabs{display:flex;gap:6px;margin-bottom:16px;border-bottom:1px solid #2a2a33;padding-bottom:0}
 .modal-tabs button{
   background:none;border:none;color:#8e8e8e;font-size:13px;cursor:pointer;
@@ -271,9 +269,6 @@ body{
 
     <!-- API 탭 -->
     <div class="modal-tab-content on" id="tab-api">
-      <label>OpenAI API Key</label>
-      <input id="keyInput" type="password" placeholder="sk-...">
-
       <label>모델 선택</label>
       <select id="modelSelect">
         <option value="gpt-4o-mini">gpt-4o-mini — 저렴 · 빠름 (추천)</option>
@@ -287,13 +282,13 @@ body{
       <div class="test-result" id="testResult"></div>
 
       <div class="row2">
-        <button class="test" id="btnTest">🧪 테스트</button>
+        <button class="test" id="btnTest">🧪 서버 테스트</button>
         <button class="ok" id="btnSaveApi">저장</button>
       </div>
 
       <div class="tip">
-        API Key는 브라우저에만 저장되며 외부로 전송되지 않습니다.<br>
-        Key 발급: <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>
+        API Key는 서버(Render)에 안전하게 보관되어 있습니다.<br>
+        여기서는 사용할 모델만 선택하세요.
       </div>
     </div>
 
@@ -393,7 +388,7 @@ let MESSAGES = [
   { id:'m1', side:'npc',    time:'21:03', kr:'오늘 뭐 해?',                    zh:'今天要幹嘛？' },
   { id:'m2', side:'player', time:'21:04', status:'read',   kr:'그냥 집에 있어', zh:'就待在家裡' },
   { id:'m3', side:'npc',    time:'21:05', kr:'심심한데…',                     zh:'好無聊喔……' },
-  { id:'m4', side:'npc',    time:'21:05', kr:'나 방금 퇴근했어',               zh:'我刚下班' },
+  { id:'m4', side:'npc',    time:'21:05', kr:'나 방금 퇴근했어',               zh:'我剛下班' },
 ];
 
 /* ============================================================
@@ -501,12 +496,10 @@ function render() {
    5. 모달 열기/닫기
    ============================================================ */
 const modalBg = document.getElementById('modalBg');
-const keyInput = document.getElementById('keyInput');
 const modelSelect = document.getElementById('modelSelect');
 const testResult = document.getElementById('testResult');
 
 function openModal() {
-  keyInput.value = localStorage.getItem('openai_api_key') || '';
   modelSelect.value = localStorage.getItem('openai_model') || 'gpt-4o-mini';
   testResult.className = 'test-result';
   testResult.textContent = '';
@@ -516,14 +509,11 @@ function openModal() {
   fillCharForm();
 
   modalBg.classList.add('show');
-  setTimeout(() => keyInput.focus(), 50);
 }
 function closeModal() { modalBg.classList.remove('show'); }
 
-document.getElementById('btnCancel');
 modalBg.addEventListener('click', e => { if (e.target === modalBg) closeModal(); });
 
-/* 탭 전환 */
 document.querySelectorAll('.modal-tabs button').forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll('.modal-tabs button').forEach(b => b.classList.remove('on'));
@@ -534,34 +524,23 @@ document.querySelectorAll('.modal-tabs button').forEach(btn => {
 });
 
 /* ============================================================
-   6. API 저장 / 테스트
+   6. 모델 저장 / 테스트
    ============================================================ */
 document.getElementById('btnSaveApi').onclick = () => {
-  const k = keyInput.value.trim();
-  const m = modelSelect.value;
-  if (!k) { alert('API Key를 입력해 주세요.'); return; }
-  localStorage.setItem('openai_api_key', k);
-  localStorage.setItem('openai_model', m);
-  alert('API 설정이 저장되었습니다!');
+  localStorage.setItem('openai_model', modelSelect.value);
+  alert('모델 설정이 저장되었습니다!');
 };
 
 document.getElementById('btnTest').onclick = async () => {
-  const k = keyInput.value.trim();
   const m = modelSelect.value;
-  if (!k) { showTest('err', '❌ API Key를 먼저 입력해 주세요.'); return; }
-
   const btn = document.getElementById('btnTest');
   btn.disabled = true;
-  showTest('loading', '⏳ 테스트 중…');
+  showTest('loading', '⏳ 서버 테스트 중…');
 
   try {
-    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    const res = await fetch('/api/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + k,
-        'OpenAI-Dangerous-Allow-Browser': 'true'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: m,
         messages: [{ role: 'user', content: 'ping' }],
@@ -570,15 +549,15 @@ document.getElementById('btnTest').onclick = async () => {
     });
     const data = await res.json();
     if (!res.ok) {
-      const msg = data.error && data.error.message ? data.error.message : ('HTTP ' + res.status);
+      const msg = (data.error && data.error.message) ? data.error.message : ('HTTP ' + res.status);
       showTest('err', '❌ 실패: ' + msg);
     } else if (data.choices && data.choices[0]) {
-      showTest('ok', '✅ 성공! 모델: ' + (data.model || m));
+      showTest('ok', '✅ 성공! 서버가 정상 작동 중입니다. (모델: ' + m + ')');
     } else {
       showTest('err', '❌ 알 수 없는 응답');
     }
   } catch (err) {
-    showTest('err', '❌ 네트워크 오류: ' + err.message + '\n(브라우저 CORS 또는 VPN 문제일 수 있습니다)');
+    showTest('err', '❌ 네트워크 오류: ' + err.message);
   } finally {
     btn.disabled = false;
   }
@@ -617,7 +596,6 @@ function updateAvPreview(id, ch) {
   }
 }
 
-/* 이미지 압축 */
 function compressImage(file, maxSize = 200) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -640,7 +618,6 @@ function compressImage(file, maxSize = 200) {
   });
 }
 
-/* NPC 아바타 */
 const npcAvFile = document.getElementById('npcAvFile');
 document.getElementById('npcAvBtn').onclick = () => npcAvFile.click();
 document.getElementById('npcAvPreview').onclick = () => npcAvFile.click();
@@ -657,7 +634,6 @@ document.getElementById('npcAvClear').onclick = () => {
   updateAvPreview('npcAvPreview', pendingNPC);
 };
 
-/* Player 아바타 */
 const playerAvFile = document.getElementById('playerAvFile');
 document.getElementById('playerAvBtn').onclick = () => playerAvFile.click();
 document.getElementById('playerAvPreview').onclick = () => playerAvFile.click();
@@ -674,7 +650,6 @@ document.getElementById('playerAvClear').onclick = () => {
   updateAvPreview('playerAvPreview', pendingPlayer);
 };
 
-/* 캐릭터 저장 */
 document.getElementById('btnSaveChars').onclick = () => {
   pendingNPC.name = document.getElementById('npcName').value.trim() || DEFAULT_NPC.name;
   pendingNPC.username = document.getElementById('npcUsername').value.trim() || DEFAULT_NPC.username;
@@ -693,7 +668,6 @@ document.getElementById('btnSaveChars').onclick = () => {
   }
 };
 
-/* 캐릭터 초기화 */
 document.getElementById('btnResetChars').onclick = () => {
   if (!confirm('캐릭터 설정을 초기값으로 되돌릴까요?')) return;
   localStorage.removeItem('char_npc');
@@ -705,12 +679,10 @@ document.getElementById('btnResetChars').onclick = () => {
 };
 
 /* ============================================================
-   8. OpenAI 호출
+   8. 서버 API 호출 (Render 백엔드로 전송)
    ============================================================ */
 async function callAI(userMessage) {
-  const apiKey = localStorage.getItem('openai_api_key');
   const model = localStorage.getItem('openai_model') || 'gpt-4o-mini';
-  if (!apiKey) { openModal(); return null; }
 
   const npc = getNPC();
   const player = getPlayer();
@@ -722,13 +694,9 @@ async function callAI(userMessage) {
   sys += `사용자의 말에 자연스러운 한국어로 답장해. 반드시 다음 형식으로만 답해: 한국어 원문|繁體中文翻譯. 다른 설명은 하지 마.`;
 
   try {
-    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    const res = await fetch('/api/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + apiKey,
-        'OpenAI-Dangerous-Allow-Browser': 'true'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: model,
         messages: [
@@ -742,8 +710,8 @@ async function callAI(userMessage) {
 
     const data = await res.json();
     if (!res.ok) {
-      const msg = data.error && data.error.message ? data.error.message : ('HTTP ' + res.status);
-      console.error('OpenAI 오류:', data);
+      const msg = (data.error && data.error.message) ? data.error.message : ('HTTP ' + res.status);
+      console.error('API 오류:', data);
       alert('API 오류: ' + msg);
       return '미안, 지금 답장 못 해 😢|抱歉，現在沒辦法回你 😢';
     }
@@ -753,7 +721,7 @@ async function callAI(userMessage) {
     return '미안, 지금 답장 못 해 😢|抱歉，現在沒辦法回你 😢';
   } catch (err) {
     console.error('API 호출 실패:', err);
-    alert('네트워크 오류: ' + err.message + '\n브라우저에서 OpenAI API를 차단했을 수 있습니다 (CORS).');
+    alert('네트워크 오류: ' + err.message);
     return '미안, 지금 답장 못 해 😢|抱歉，現在沒辦法回你 😢';
   }
 }
