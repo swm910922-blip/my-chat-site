@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KKT / IG DM 聊天模拟器</title>
+<title>KKT / IG DM 聊天模擬器</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{
@@ -139,15 +139,15 @@ body{
     <div id="hdrSlot"></div>
     <div class="chat" id="chat"></div>
     <div class="composer">
-      <input id="inp" placeholder="输入消息…" autocomplete="off">
-      <button id="send">发送</button>
+      <input id="inp" placeholder="輸入訊息…" autocomplete="off">
+      <button id="send">傳送</button>
     </div>
   </div>
 </div>
 
 <script>
 /* ============================================================
-   1. 角色资料
+   1. 角色資料
    ============================================================ */
 const DATA = {
   kakao: {
@@ -163,25 +163,28 @@ const DATA = {
 };
 
 /* ============================================================
-   2. 初始对话（你可以随意修改或清空）
+   2. 初始對話（可自由修改或清空）
    ============================================================ */
 let MESSAGES = [
-  { id:'m1', side:'npc',    time:'21:03', kr:'오늘 뭐 해?',                    zh:'今天干嘛？' },
-  { id:'m2', side:'player', time:'21:04', status:'read',   kr:'그냥 집에 있어', zh:'就在家待着' },
-  { id:'m3', side:'npc',    time:'21:05', kr:'심심한데…',                     zh:'好无聊啊……' },
-  { id:'m4', side:'npc',    time:'21:05', kr:'나 방금 퇴근했어',               zh:'我刚下班' },
+  { id:'m1', side:'npc',    time:'21:03', kr:'오늘 뭐 해?',                    zh:'今天要幹嘛？' },
+  { id:'m2', side:'player', time:'21:04', status:'read',   kr:'그냥 집에 있어', zh:'就待在家裡' },
+  { id:'m3', side:'npc',    time:'21:05', kr:'심심한데…',                     zh:'好無聊喔……' },
+  { id:'m4', side:'npc',    time:'21:05', kr:'나 방금 퇴근했어',               zh:'我剛下班' },
 ];
 
 /* ============================================================
-   3. 全局变量
+   3. 全域變數
    ============================================================ */
 let platform = 'kakao';
 let isTyping = false;
 
+/* ⚠️ 在這裡填入你的 Gemini API Key ⚠️ */
+const GEMINI_API_KEY = '在這裡貼上你的API_Key';
+
 const esc = s => String(s ?? '').replace(/[&<>"]/g,
   c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-const statusText = s => ({ sent:'已发送', unread:'未读', read:'已读' }[s] || '');
+const statusText = s => ({ sent:'已傳送', unread:'未讀', read:'已讀' }[s] || '');
 
 const nowTime = () => {
   const t = new Date();
@@ -189,13 +192,13 @@ const nowTime = () => {
 };
 
 /* ============================================================
-   4. 渲染函数
+   4. 渲染函式
    ============================================================ */
 function render() {
   const d = DATA[platform];
   document.getElementById('phone').className = 'phone ' + platform;
 
-  /* Header */
+  /* 頂部欄 */
   document.getElementById('hdrSlot').innerHTML = `
     <header class="hdr">
       <div class="back">‹</div>
@@ -205,10 +208,9 @@ function render() {
         <div class="sub">${esc(d.sub)}</div>
       </div>
       <div class="tag">${platform === 'kakao' ? 'KAKAO' : 'IG'}</div>
-      <div class="gear" id="gearBtn" title="设置 API Key">⚙️</div>
     </header>`;
 
-  /* 消息 */
+  /* 訊息 */
   const chat = document.getElementById('chat');
   let html = '';
   let prevSide = null;
@@ -220,7 +222,7 @@ function render() {
     let inner = '';
 
     if (m.kind === 'story_reply' && platform === 'ig') {
-      inner += `<div class="ctx">回复了你的限时动态</div>`;
+      inner += `<div class="ctx">回覆了你的限時動態</div>`;
     }
 
     if (m.kind === 'reel_share' || m.kind === 'post_share') {
@@ -262,41 +264,26 @@ function render() {
       </div>`;
   }
 
-  // 如果正在输入，显示提示
   if (isTyping) {
-    html += `<div class="typing">对方正在输入…</div>`;
+    html += `<div class="typing">對方正在輸入…</div>`;
   }
 
   chat.innerHTML = html;
   chat.scrollTop = chat.scrollHeight;
-
-  // 绑定设置按钮
-  const gear = document.getElementById('gearBtn');
-  if (gear) {
-    gear.onclick = () => {
-      const cur = localStorage.getItem('gemini_api_key') || '';
-      const key = prompt('请输入你的 Gemini API Key（从 Google AI Studio 获取）:', cur);
-      if (key !== null) {
-        localStorage.setItem('gemini_api_key', key.trim());
-        alert('API Key 已保存！');
-      }
-    };
-  }
 }
 
 /* ============================================================
-   5. 调用 Gemini API
+   5. 呼叫 Gemini API
    ============================================================ */
 async function callAI(userMessage) {
-  const apiKey = localStorage.getItem('gemini_api_key');
-  if (!apiKey) {
-    alert('请先点击右上角 ⚙️ 设置 Gemini API Key！');
+  if (!GEMINI_API_KEY || GEMINI_API_KEY === '在這裡貼上你的API_Key') {
+    alert('請先在程式碼中填入 Gemini API Key！');
     return null;
   }
 
-  const prompt = `你是一个韩语恋爱模拟角色，名字叫朴智旻。你正在和用户用聊天软件聊天。请根据用户的话，用自然的韩语回复，并且提供中文翻译。格式必须是：韩语原文|中文翻译。不要有多余的解释。用户说：${userMessage}`;
+  const prompt = `你是一個韓語戀愛模擬角色，名字叫朴智旻。你正在和用戶用聊天軟體聊天。請根據用戶的話，用自然的韓語回覆，並且提供繁體中文翻譯。格式必須是：韓語原文|繁體中文翻譯。不要有多餘的解釋。用戶說：${userMessage}`;
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
   const body = {
     contents: [{
@@ -314,17 +301,17 @@ async function callAI(userMessage) {
     if (data.candidates && data.candidates[0] && data.candidates[0].content) {
       return data.candidates[0].content.parts[0].text;
     } else {
-      console.error('API 返回异常:', data);
-      return '미안, 지금 답장 못 해 😢|抱歉，现在没法回你 😢';
+      console.error('API 回傳異常:', data);
+      return '미안, 지금 답장 못 해 😢|抱歉，現在沒辦法回你 😢';
     }
   } catch (err) {
-    console.error('API 调用失败：', err);
-    return '미안, 지금 답장 못 해 😢|抱歉，现在没法回你 😢';
+    console.error('API 呼叫失敗：', err);
+    return '미안, 지금 답장 못 해 😢|抱歉，現在沒辦法回你 😢';
   }
 }
 
 /* ============================================================
-   6. 发送消息 + AI 回复
+   6. 發送訊息 + AI 回覆
    ============================================================ */
 async function send() {
   const inp = document.getElementById('inp');
@@ -344,11 +331,9 @@ async function send() {
   inp.value = '';
   render();
 
-  // 显示正在输入
   isTyping = true;
   render();
 
-  // 调用 AI
   const aiReplyRaw = await callAI(v);
   if (aiReplyRaw === null) {
     isTyping = false;
@@ -356,7 +341,6 @@ async function send() {
     return;
   }
 
-  // 解析 AI 回复（韩语|中文）
   let kr = aiReplyRaw;
   let zh = '';
   if (aiReplyRaw.includes('|')) {
@@ -365,11 +349,9 @@ async function send() {
     zh = parts[1] ? parts[1].trim() : '';
   }
 
-  // 标记玩家最后一条为已读（模拟对方看了）
   const lastPlayer = [...MESSAGES].reverse().find(m => m.side === 'player');
   if (lastPlayer) lastPlayer.status = 'read';
 
-  // 添加 NPC 回复
   MESSAGES.push({
     id: 'ai' + Date.now(),
     side: 'npc',
@@ -383,7 +365,7 @@ async function send() {
 }
 
 /* ============================================================
-   7. 事件绑定
+   7. 事件綁定
    ============================================================ */
 document.getElementById('tabKakao').onclick = () => {
   platform = 'kakao';
