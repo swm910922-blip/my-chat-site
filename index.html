@@ -12,7 +12,6 @@ body{
   font-family:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR","PingFang TC","Microsoft JhengHei",sans-serif;
 }
 .wrap{display:flex;flex-direction:column;align-items:center;gap:18px}
-
 .tabs{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center}
 .tabs button{
   background:#1c1c22;color:#9a9aa5;border:1px solid #2a2a33;
@@ -20,7 +19,6 @@ body{
   transition:.18s;font-family:inherit;
 }
 .tabs button.on{background:#fff;color:#111;border-color:#fff}
-
 .trans-toggle{
   background:#1c1c22;color:#9a9aa5;border:1px solid #2a2a33;
   padding:8px 16px;border-radius:999px;font-size:13px;cursor:pointer;
@@ -29,14 +27,12 @@ body{
 .trans-toggle.on{background:#4C8BF5;color:#fff;border-color:#4C8BF5}
 .trans-toggle .dot{width:8px;height:8px;border-radius:50%;background:#4a4a55;transition:.18s}
 .trans-toggle.on .dot{background:#fff}
-
 .phone{
   width:390px;height:780px;border-radius:40px;overflow:hidden;
   display:flex;flex-direction:column;position:relative;
   box-shadow:0 30px 80px rgba(0,0,0,.85),0 0 0 10px #17171c;
   transition:background .25s;
 }
-
 .phone.kakao{
   --bg:#B2C7D9; --hdr-bg:#B2C7D9; --hdr-fg:#16181a; --hdr-sub:#4c5b68;
   --npc-bg:#ffffff; --npc-fg:#111111;
@@ -51,7 +47,6 @@ body{
   --meta:#8e8e8e; --composer-bg:#000000; --input-bg:#1c1c1e;
   --accent:#3C82FF;
 }
-
 .hdr{
   flex:0 0 auto;background:var(--hdr-bg);color:var(--hdr-fg);
   display:flex;align-items:center;gap:10px;
@@ -64,18 +59,10 @@ body{
 .hdr .name{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hdr .sub{font-size:11.5px;color:var(--hdr-sub);margin-top:1px}
 .hdr .tag{font-size:9.5px;letter-spacing:.1em;opacity:.5;font-weight:700}
-.hdr .gear{
-  font-size:17px;cursor:pointer;opacity:.55;margin-left:2px;
-  padding:4px;border-radius:50%;transition:.18s;
-}
+.hdr .gear{font-size:17px;cursor:pointer;opacity:.55;margin-left:2px;padding:4px;border-radius:50%;transition:.18s}
 .hdr .gear:hover{opacity:1;background:rgba(128,128,128,.15)}
-
-.chat{
-  flex:1;background:var(--bg);overflow-y:auto;
-  padding:16px 12px 24px;display:flex;flex-direction:column;
-}
+.chat{flex:1;background:var(--bg);overflow-y:auto;padding:16px 12px 24px;display:flex;flex-direction:column}
 .chat::-webkit-scrollbar{width:0}
-
 .row{display:flex;gap:8px;margin-top:12px;align-items:flex-end}
 .row.cont{margin-top:3px}
 .row.player{flex-direction:row-reverse}
@@ -84,10 +71,8 @@ body{
 .row .col{display:flex;flex-direction:column;max-width:76%;min-width:0}
 .row.player .col{align-items:flex-end}
 .row .sender{font-size:12px;color:var(--hdr-sub);margin-bottom:4px;padding-left:3px}
-
 .line{display:flex;align-items:flex-end;gap:6px}
 .row.player .line{flex-direction:row-reverse}
-
 .bubble{
   padding:9px 13px;border-radius:18px;
   font-size:14px;line-height:1.45;word-break:break-word;
@@ -97,29 +82,20 @@ body{
 .row.player .bubble{background:var(--me-bg);color:var(--me-fg)}
 .row.npc:not(.cont) .bubble{border-top-left-radius:6px}
 .row.player:not(.cont) .bubble{border-top-right-radius:6px}
-
 .kr{font-family:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif}
 .zh{font-size:12px;opacity:.6;margin-top:3px;line-height:1.4}
-
-.meta{
-  font-size:11px;color:var(--meta);
-  display:flex;gap:5px;white-space:nowrap;padding-bottom:3px;
-}
+.meta{font-size:11px;color:var(--meta);display:flex;gap:5px;white-space:nowrap;padding-bottom:3px}
 .st-read{opacity:.55}
 .st-unread{color:#e8a33d;font-weight:600}
-
 .ctx{font-size:11px;opacity:.65;margin-bottom:5px;padding-left:2px}
-
 .reactions{
   margin-top:-8px;background:var(--npc-bg);color:var(--npc-fg);
   border-radius:999px;padding:2px 8px;font-size:12px;
   box-shadow:0 1px 4px rgba(0,0,0,.18);position:relative;z-index:1;
 }
-
 .media{width:175px;border-radius:12px;overflow:hidden;margin-bottom:6px;background:rgba(128,128,128,.18)}
 .media-thumb{height:105px;background:linear-gradient(135deg,#7B5CFF,#3C82FF)}
 .media-cap{font-size:12px;padding:7px 9px;line-height:1.4}
-
 .composer{
   flex:0 0 auto;background:var(--composer-bg);
   padding:10px 12px 18px;display:flex;gap:8px;align-items:center;
@@ -137,31 +113,17 @@ body{
   font-family:inherit;
 }
 .phone.ig .composer button{color:#fff}
-
 .typing{font-size:12px;color:var(--hdr-sub);padding:6px 12px;font-style:italic}
-
-/* ===== 모달 ===== */
-.modal-bg{
-  position:fixed;inset:0;background:rgba(0,0,0,.75);
-  display:none;align-items:center;justify-content:center;z-index:999;
-  padding:20px;
-}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:999;padding:20px}
 .modal-bg.show{display:flex}
-.modal{
-  background:#1c1c22;border:1px solid #2a2a33;border-radius:16px;
-  padding:22px;width:100%;max-width:400px;color:#fff;
-  max-height:90vh;overflow-y:auto;
-}
+.modal{background:#1c1c22;border:1px solid #2a2a33;border-radius:16px;padding:22px;width:100%;max-width:400px;color:#fff;max-height:90vh;overflow-y:auto}
 .modal::-webkit-scrollbar{width:6px}
 .modal::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
 .modal h3{font-size:15px;margin-bottom:16px;font-weight:600;display:flex;align-items:center;gap:8px}
-.modal label{
-  display:block;font-size:12px;color:#9a9aa5;margin-bottom:6px;margin-top:14px;
-}
-.modal input[type=text], .modal select, .modal textarea{
+.modal label{display:block;font-size:12px;color:#9a9aa5;margin-bottom:6px;margin-top:14px}
+.modal input[type=text], .modal input[type=password], .modal select, .modal textarea{
   width:100%;background:#0b0b0e;border:1px solid #2a2a33;border-radius:10px;
-  padding:10px 13px;font-size:13px;color:#fff;outline:none;
-  font-family:inherit;
+  padding:10px 13px;font-size:13px;color:#fff;outline:none;font-family:inherit;
 }
 .modal textarea{resize:vertical;min-height:70px;line-height:1.5}
 .modal input:focus, .modal select:focus, .modal textarea:focus{border-color:#4C8BF5}
@@ -170,51 +132,32 @@ body{
   background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;
 }
 .modal .row2{display:flex;gap:8px;margin-top:18px}
-.modal .row2 button{
-  flex:1;padding:11px;border-radius:10px;font-size:13px;font-weight:600;
-  cursor:pointer;font-family:inherit;border:none;transition:.15s;
-}
+.modal .row2 button{flex:1;padding:11px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:none;transition:.15s}
 .modal .row2 .test{background:#2a2a33;color:#8ec5ff}
 .modal .row2 .test:hover{background:#33333d}
 .modal .row2 .cancel{background:#2a2a33;color:#ccc}
 .modal .row2 .ok{background:#4C8BF5;color:#fff}
 .modal .row2 .ok:hover{background:#5b96ff}
 .modal .row2 button:disabled{opacity:.5;cursor:not-allowed}
-
-.test-result{
-  margin-top:14px;padding:11px 13px;border-radius:10px;font-size:12px;
-  line-height:1.5;display:none;
-}
+.test-result{margin-top:14px;padding:11px 13px;border-radius:10px;font-size:12px;line-height:1.5;display:none}
 .test-result.show{display:block}
 .test-result.ok{background:rgba(76,139,245,.15);color:#8ec5ff;border:1px solid rgba(76,139,245,.3)}
 .test-result.err{background:rgba(255,90,90,.12);color:#ff9a9a;border:1px solid rgba(255,90,90,.3)}
 .test-result.loading{background:rgba(255,255,255,.06);color:#ccc;border:1px solid rgba(255,255,255,.1)}
-
 .modal .tip{font-size:11px;color:#8e8e8e;margin-top:10px;line-height:1.5}
-
-/* 캐릭터 설정 */
-.char-section{
-  background:#141419;border:1px solid #26262e;border-radius:12px;
-  padding:14px;margin-top:14px;
-}
-.char-section h4{
-  font-size:13px;color:#fff;margin-bottom:12px;font-weight:600;
-  display:flex;align-items:center;gap:8px;
-}
-.char-section h4 .badge{
-  font-size:10px;background:#2a2a33;color:#9a9aa5;
-  padding:2px 8px;border-radius:999px;font-weight:500;
-}
-.avatar-row{
-  display:flex;align-items:center;gap:14px;margin-bottom:12px;
-}
+.modal .tip a{color:#8ec5ff;text-decoration:none}
+.char-section{background:#141419;border:1px solid #26262e;border-radius:12px;padding:14px;margin-top:14px}
+.char-section h4{font-size:13px;color:#fff;margin-bottom:12px;font-weight:600;display:flex;align-items:center;gap:8px}
+.char-section h4 .badge{font-size:10px;background:#2a2a33;color:#9a9aa5;padding:2px 8px;border-radius:999px;font-weight:500}
+.char-section h4 .badge.pink{background:rgba(255,94,126,.18);color:#ff8fa8}
+.char-section h4 .badge.blue{background:rgba(76,139,245,.2);color:#8ec5ff}
+.avatar-row{display:flex;align-items:center;gap:14px;margin-bottom:12px}
 .avatar-preview{
   width:60px;height:60px;border-radius:50%;flex:0 0 auto;
   background-size:cover;background-position:center;
   border:2px solid #2a2a33;
   display:flex;align-items:center;justify-content:center;
-  font-size:11px;color:#555;cursor:pointer;
-  transition:.15s;
+  font-size:11px;color:#555;cursor:pointer;transition:.15s;
 }
 .avatar-preview:hover{border-color:#4C8BF5}
 .avatar-actions{display:flex;flex-direction:column;gap:6px;flex:1}
@@ -227,7 +170,6 @@ body{
 .avatar-actions .danger{color:#ff8888}
 .avatar-actions .danger:hover{color:#ff5555}
 .file-input-hidden{display:none}
-
 .modal-tabs{display:flex;gap:6px;margin-bottom:16px;border-bottom:1px solid #2a2a33;padding-bottom:0}
 .modal-tabs button{
   background:none;border:none;color:#8e8e8e;font-size:13px;cursor:pointer;
@@ -237,6 +179,16 @@ body{
 .modal-tabs button.on{color:#fff;border-bottom-color:#4C8BF5}
 .modal-tab-content{display:none}
 .modal-tab-content.on{display:block}
+
+/* 关系标签快速选择 */
+.rel-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.rel-chips button{
+  background:#0b0b0e;border:1px solid #2a2a33;color:#9a9aa5;
+  padding:5px 11px;border-radius:999px;font-size:11.5px;cursor:pointer;
+  font-family:inherit;transition:.15s;
+}
+.rel-chips button:hover{border-color:#4C8BF5;color:#8ec5ff}
+.rel-chips button.on{background:#4C8BF5;color:#fff;border-color:#4C8BF5}
 </style>
 </head>
 <body>
@@ -259,16 +211,17 @@ body{
   </div>
 </div>
 
-<!-- 설정 모달 -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <div class="modal-tabs">
       <button class="on" data-tab="api">API 설정</button>
-      <button data-tab="chars">캐릭터 설정</button>
+      <button data-tab="chars">캐릭터 · 관계 설정</button>
     </div>
 
-    <!-- API 탭 -->
     <div class="modal-tab-content on" id="tab-api">
+      <label>OpenAI API Key</label>
+      <input id="keyInput" type="password" placeholder="sk-...">
+
       <label>모델 선택</label>
       <select id="modelSelect">
         <option value="gpt-4o-mini">gpt-4o-mini — 저렴 · 빠름 (추천)</option>
@@ -282,21 +235,42 @@ body{
       <div class="test-result" id="testResult"></div>
 
       <div class="row2">
-        <button class="test" id="btnTest">🧪 서버 테스트</button>
+        <button class="test" id="btnTest">🧪 테스트</button>
         <button class="ok" id="btnSaveApi">저장</button>
       </div>
 
       <div class="tip">
-        API Key는 서버(Render)에 안전하게 보관되어 있습니다.<br>
-        여기서는 사용할 모델만 선택하세요.
+        API Key는 브라우저에만 저장됩니다. 외부로 전송되지 않습니다.<br>
+        Key 발급: <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>
       </div>
     </div>
 
-    <!-- 캐릭터 탭 -->
     <div class="modal-tab-content" id="tab-chars">
+      <!-- ===== 关系与背景（新） ===== -->
+      <div class="char-section" style="border-color:#3a3a48;background:#181820;">
+        <h4>관계 및 배경 <span class="badge pink">RELATION</span></h4>
+
+        <div class="rel-chips" id="relChips">
+          <button data-rel="연인">연인 (恋人)</button>
+          <button data-rel="썸">썸 (暧昧)</button>
+          <button data-rel="친구">친구 (朋友)</button>
+          <button data-rel="짝사랑">짝사랑 (单恋)</button>
+          <button data-rel="전 연인">전 연인 (前任)</button>
+          <button data-rel="소개팅">소개팅 (相亲)</button>
+          <button data-rel="직장 동료">직장 동료 (同事)</button>
+          <button data-rel="첫 만남">첫 만남 (初次认识)</button>
+        </div>
+
+        <label>관계 요약 (선택)</label>
+        <input type="text" id="relSummary" placeholder="예: 고등학교 동창, 3개월 전부터 썸 타는 중">
+
+        <label>배경 / 세계관 / 스토리 설정</label>
+        <textarea id="relStory" placeholder="예: 같은 대학교 같은 과. 나는 3학년, 지민이는 2학년. 작년 축제에서 처음 만났고, 그 이후로 카톡을 자주 함. 지금은 방학이라 매일 연락하는 중. 지민이는 아르바이트로 카페에서 일함." style="min-height:100px;"></textarea>
+      </div>
+
+      <!-- ===== NPC ===== -->
       <div class="char-section">
         <h4>상대방 캐릭터 <span class="badge">NPC</span></h4>
-
         <div class="avatar-row">
           <div class="avatar-preview" id="npcAvPreview" title="클릭하여 업로드">사진</div>
           <div class="avatar-actions">
@@ -305,20 +279,17 @@ body{
           </div>
           <input type="file" id="npcAvFile" class="file-input-hidden" accept="image/*">
         </div>
-
         <label>이름</label>
         <input type="text" id="npcName" placeholder="예: 박지민">
-
         <label>Instagram 사용자명 (@ 없이)</label>
         <input type="text" id="npcUsername" placeholder="예: jimin_0fficial">
-
-        <label>캐릭터 성격 / 배경 설정</label>
-        <textarea id="npcPersona" placeholder="예: 23살 여자, 밝고 장난스러운 성격. 사용자에게 다정하지만 가끔 츤데레. 커피 좋아함. 밤에는 답장이 느림."></textarea>
+        <label>캐릭터 성격 / 말투 / 습관</label>
+        <textarea id="npcPersona" placeholder="예: 밝고 장난스러운 성격. 이모지 잘 씀. 답장 빠른 편이지만 알바 시간엔 느림. 츤데레. 커피 좋아함."></textarea>
       </div>
 
+      <!-- ===== Player ===== -->
       <div class="char-section">
-        <h4>내 캐릭터 <span class="badge">PLAYER</span></h4>
-
+        <h4>내 캐릭터 <span class="badge blue">PLAYER</span></h4>
         <div class="avatar-row">
           <div class="avatar-preview" id="playerAvPreview" title="클릭하여 업로드">사진</div>
           <div class="avatar-actions">
@@ -327,12 +298,10 @@ body{
           </div>
           <input type="file" id="playerAvFile" class="file-input-hidden" accept="image/*">
         </div>
-
         <label>내 이름</label>
         <input type="text" id="playerName" placeholder="예: 나">
-
         <label>내 캐릭터 설정 (선택)</label>
-        <textarea id="playerPersona" placeholder="예: 25살 직장인, 게임 좋아함, 무뚝뚝한 편"></textarea>
+        <textarea id="playerPersona" placeholder="예: 25살 직장인, 무뚝뚝하지만 지민이 앞에선 다정해짐. 게임 좋아함."></textarea>
       </div>
 
       <div class="row2">
@@ -345,36 +314,34 @@ body{
 
 <script>
 /* ============================================================
-   1. 기본 캐릭터
+   1. 기본값
    ============================================================ */
 const DEFAULT_NPC = {
-  name: '박지민',
-  username: 'jimin_0fficial',
-  avatar: null,
+  name: '박지민', username: 'jimin_0fficial', avatar: null,
   gradient: 'linear-gradient(135deg,#c9d6e2,#9fb3c8)',
-  persona: '23살 한국 여자. 밝고 장난스러운 성격, 사용자에게 다정함. 가끔 츤데레. 커피 좋아함. 밤에는 답장이 느림.'
+  persona: '밝고 장난스러운 성격. 이모지 잘 씀. 답장 빠른 편이지만 알바 시간엔 느림. 츤데레. 커피 좋아함.'
 };
 const DEFAULT_PLAYER = {
-  name: '나',
-  avatar: null,
+  name: '나', avatar: null,
   gradient: 'linear-gradient(135deg,#FFB86B,#FF5E7E)',
   persona: ''
 };
+const DEFAULT_REL = {
+  type: '',
+  summary: '',
+  story: ''
+};
 
-function getNPC() {
+function load(key, def) {
   try {
-    const raw = localStorage.getItem('char_npc');
-    if (raw) return Object.assign({}, DEFAULT_NPC, JSON.parse(raw));
+    const r = localStorage.getItem(key);
+    if (r) return Object.assign({}, def, JSON.parse(r));
   } catch(e){}
-  return Object.assign({}, DEFAULT_NPC);
+  return Object.assign({}, def);
 }
-function getPlayer() {
-  try {
-    const raw = localStorage.getItem('char_player');
-    if (raw) return Object.assign({}, DEFAULT_PLAYER, JSON.parse(raw));
-  } catch(e){}
-  return Object.assign({}, DEFAULT_PLAYER);
-}
+const getNPC     = () => load('char_npc', DEFAULT_NPC);
+const getPlayer  = () => load('char_player', DEFAULT_PLAYER);
+const getRel     = () => load('char_rel', DEFAULT_REL);
 
 function avatarStyle(ch) {
   if (ch.avatar) return `background-image:url(${ch.avatar});background-size:cover;background-position:center;`;
@@ -399,12 +366,11 @@ let isTyping = false;
 let showTranslation = localStorage.getItem('showTranslation') !== 'off';
 let pendingNPC = getNPC();
 let pendingPlayer = getPlayer();
+let pendingRel = getRel();
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g,
   c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-
 const statusText = s => ({ sent:'전송됨', unread:'안 읽음', read:'읽음' }[s] || '');
-
 const nowTime = () => {
   const t = new Date();
   return String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0');
@@ -416,7 +382,6 @@ const nowTime = () => {
 function render() {
   const npc = getNPC();
   const player = getPlayer();
-
   document.getElementById('phone').className = 'phone ' + platform;
 
   document.getElementById('hdrSlot').innerHTML = `
@@ -443,29 +408,18 @@ function render() {
   for (const m of MESSAGES) {
     const cont = prevSide === m.side;
     prevSide = m.side;
-
     let inner = '';
-    if (m.kind === 'story_reply' && platform === 'ig') {
-      inner += `<div class="ctx">스토리에 답장함</div>`;
-    }
+    if (m.kind === 'story_reply' && platform === 'ig') inner += `<div class="ctx">스토리에 답장함</div>`;
     if (m.kind === 'reel_share' || m.kind === 'post_share') {
-      inner += `<div class="media">
-        <div class="media-thumb"></div>
-        <div class="media-cap">
-          ${esc(m.mediaCaption || '')}
-          ${m.mediaCaptionZh && showTranslation ? `<div class="zh">${esc(m.mediaCaptionZh)}</div>` : ''}
-        </div>
-      </div>`;
+      inner += `<div class="media"><div class="media-thumb"></div><div class="media-cap">${esc(m.mediaCaption||'')}${m.mediaCaptionZh && showTranslation ? `<div class="zh">${esc(m.mediaCaptionZh)}</div>`:''}</div></div>`;
     }
     if (m.kr) inner += `<div class="kr">${esc(m.kr)}</div>`;
     if (m.zh && showTranslation) inner += `<div class="zh">${esc(m.zh)}</div>`;
     if (!inner) inner = '<div class="kr">·</div>';
 
     const meta = m.side === 'player'
-      ? `<span>${esc(m.time)}</span>` +
-        (m.status ? `<span class="st-${m.status}">${statusText(m.status)}</span>` : '')
+      ? `<span>${esc(m.time)}</span>` + (m.status ? `<span class="st-${m.status}">${statusText(m.status)}</span>` : '')
       : `<span>${esc(m.time)}</span>`;
-
     const senderName = m.side === 'npc' ? npc.name : player.name;
 
     html += `
@@ -477,41 +431,35 @@ function render() {
             <div class="bubble">${inner}</div>
             <div class="meta">${meta}</div>
           </div>
-          ${m.reactions && m.reactions.length
-            ? `<div class="reactions">${m.reactions.join('')}</div>` : ''}
+          ${m.reactions && m.reactions.length ? `<div class="reactions">${m.reactions.join('')}</div>` : ''}
         </div>
       </div>`;
   }
-
   if (isTyping) html += `<div class="typing">입력 중…</div>`;
 
   chat.innerHTML = html;
   chat.scrollTop = chat.scrollHeight;
-
   const gear = document.getElementById('gearBtn');
   if (gear) gear.onclick = openModal;
 }
 
 /* ============================================================
-   5. 모달 열기/닫기
+   5. 모달
    ============================================================ */
 const modalBg = document.getElementById('modalBg');
+const keyInput = document.getElementById('keyInput');
 const modelSelect = document.getElementById('modelSelect');
 const testResult = document.getElementById('testResult');
 
 function openModal() {
+  keyInput.value = localStorage.getItem('openai_api_key') || '';
   modelSelect.value = localStorage.getItem('openai_model') || 'gpt-4o-mini';
-  testResult.className = 'test-result';
-  testResult.textContent = '';
-
-  pendingNPC = getNPC();
-  pendingPlayer = getPlayer();
+  testResult.className = 'test-result'; testResult.textContent = '';
+  pendingNPC = getNPC(); pendingPlayer = getPlayer(); pendingRel = getRel();
   fillCharForm();
-
   modalBg.classList.add('show');
 }
 function closeModal() { modalBg.classList.remove('show'); }
-
 modalBg.addEventListener('click', e => { if (e.target === modalBg) closeModal(); });
 
 document.querySelectorAll('.modal-tabs button').forEach(btn => {
@@ -523,44 +471,44 @@ document.querySelectorAll('.modal-tabs button').forEach(btn => {
   };
 });
 
-/* ============================================================
-   6. 모델 저장 / 테스트
-   ============================================================ */
+/* API */
 document.getElementById('btnSaveApi').onclick = () => {
+  const k = keyInput.value.trim();
+  if (!k) { alert('API Key를 입력해 주세요.'); return; }
+  localStorage.setItem('openai_api_key', k);
   localStorage.setItem('openai_model', modelSelect.value);
-  alert('모델 설정이 저장되었습니다!');
+  alert('API 설정이 저장되었습니다!');
 };
 
 document.getElementById('btnTest').onclick = async () => {
+  const k = keyInput.value.trim();
   const m = modelSelect.value;
+  if (!k) { showTest('err', '❌ API Key를 먼저 입력해 주세요.'); return; }
   const btn = document.getElementById('btnTest');
   btn.disabled = true;
-  showTest('loading', '⏳ 서버 테스트 중…');
-
+  showTest('loading', '⏳ 테스트 중…');
   try {
-    const res = await fetch('/api/chat', {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: m,
-        messages: [{ role: 'user', content: 'ping' }],
-        max_tokens: 5
-      })
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + k,
+        'OpenAI-Dangerous-Allow-Browser': 'true'
+      },
+      body: JSON.stringify({ model: m, messages: [{ role: 'user', content: 'ping' }], max_tokens: 5 })
     });
     const data = await res.json();
     if (!res.ok) {
-      const msg = (data.error && data.error.message) ? data.error.message : ('HTTP ' + res.status);
+      const msg = data.error && data.error.message ? data.error.message : ('HTTP ' + res.status);
       showTest('err', '❌ 실패: ' + msg);
     } else if (data.choices && data.choices[0]) {
-      showTest('ok', '✅ 성공! 서버가 정상 작동 중입니다. (모델: ' + m + ')');
+      showTest('ok', '✅ 성공! 모델: ' + (data.model || m));
     } else {
       showTest('err', '❌ 알 수 없는 응답');
     }
   } catch (err) {
     showTest('err', '❌ 네트워크 오류: ' + err.message);
-  } finally {
-    btn.disabled = false;
-  }
+  } finally { btn.disabled = false; }
 };
 
 function showTest(type, text) {
@@ -569,18 +517,40 @@ function showTest(type, text) {
 }
 
 /* ============================================================
-   7. 캐릭터 폼
+   6. 캐릭터 + 관계 폼
    ============================================================ */
 function fillCharForm() {
+  // 关系
+  document.getElementById('relSummary').value = pendingRel.summary || '';
+  document.getElementById('relStory').value   = pendingRel.story || '';
+  document.querySelectorAll('#relChips button').forEach(b => {
+    b.classList.toggle('on', b.dataset.rel === pendingRel.type);
+  });
+
+  // NPC
   document.getElementById('npcName').value = pendingNPC.name || '';
   document.getElementById('npcUsername').value = pendingNPC.username || '';
   document.getElementById('npcPersona').value = pendingNPC.persona || '';
   updateAvPreview('npcAvPreview', pendingNPC);
 
+  // Player
   document.getElementById('playerName').value = pendingPlayer.name || '';
   document.getElementById('playerPersona').value = pendingPlayer.persona || '';
   updateAvPreview('playerAvPreview', pendingPlayer);
 }
+
+document.querySelectorAll('#relChips button').forEach(b => {
+  b.onclick = () => {
+    if (b.classList.contains('on')) {
+      b.classList.remove('on');
+      pendingRel.type = '';
+    } else {
+      document.querySelectorAll('#relChips button').forEach(x => x.classList.remove('on'));
+      b.classList.add('on');
+      pendingRel.type = b.dataset.rel;
+    }
+  };
+});
 
 function updateAvPreview(id, ch) {
   const el = document.getElementById(id);
@@ -623,15 +593,12 @@ document.getElementById('npcAvBtn').onclick = () => npcAvFile.click();
 document.getElementById('npcAvPreview').onclick = () => npcAvFile.click();
 npcAvFile.onchange = async e => {
   const f = e.target.files[0]; if (!f) return;
-  try {
-    pendingNPC.avatar = await compressImage(f);
-    updateAvPreview('npcAvPreview', pendingNPC);
-  } catch(err) { alert('이미지 처리 실패: ' + err.message); }
+  try { pendingNPC.avatar = await compressImage(f); updateAvPreview('npcAvPreview', pendingNPC); }
+  catch(err) { alert('이미지 처리 실패: ' + err.message); }
   npcAvFile.value = '';
 };
 document.getElementById('npcAvClear').onclick = () => {
-  pendingNPC.avatar = null;
-  updateAvPreview('npcAvPreview', pendingNPC);
+  pendingNPC.avatar = null; updateAvPreview('npcAvPreview', pendingNPC);
 };
 
 const playerAvFile = document.getElementById('playerAvFile');
@@ -639,64 +606,88 @@ document.getElementById('playerAvBtn').onclick = () => playerAvFile.click();
 document.getElementById('playerAvPreview').onclick = () => playerAvFile.click();
 playerAvFile.onchange = async e => {
   const f = e.target.files[0]; if (!f) return;
-  try {
-    pendingPlayer.avatar = await compressImage(f);
-    updateAvPreview('playerAvPreview', pendingPlayer);
-  } catch(err) { alert('이미지 처리 실패: ' + err.message); }
+  try { pendingPlayer.avatar = await compressImage(f); updateAvPreview('playerAvPreview', pendingPlayer); }
+  catch(err) { alert('이미지 처리 실패: ' + err.message); }
   playerAvFile.value = '';
 };
 document.getElementById('playerAvClear').onclick = () => {
-  pendingPlayer.avatar = null;
-  updateAvPreview('playerAvPreview', pendingPlayer);
+  pendingPlayer.avatar = null; updateAvPreview('playerAvPreview', pendingPlayer);
 };
 
 document.getElementById('btnSaveChars').onclick = () => {
+  // 关系
+  pendingRel.summary = document.getElementById('relSummary').value.trim();
+  pendingRel.story   = document.getElementById('relStory').value.trim();
+
+  // NPC
   pendingNPC.name = document.getElementById('npcName').value.trim() || DEFAULT_NPC.name;
   pendingNPC.username = document.getElementById('npcUsername').value.trim() || DEFAULT_NPC.username;
   pendingNPC.persona = document.getElementById('npcPersona').value.trim();
 
+  // Player
   pendingPlayer.name = document.getElementById('playerName').value.trim() || DEFAULT_PLAYER.name;
   pendingPlayer.persona = document.getElementById('playerPersona').value.trim();
 
   try {
     localStorage.setItem('char_npc', JSON.stringify(pendingNPC));
     localStorage.setItem('char_player', JSON.stringify(pendingPlayer));
+    localStorage.setItem('char_rel', JSON.stringify(pendingRel));
     render();
-    alert('캐릭터 설정이 저장되었습니다!');
-  } catch(err) {
-    alert('저장 실패: ' + err.message + '\n(이미지가 너무 클 수 있습니다)');
-  }
+    alert('설정이 저장되었습니다!');
+  } catch(err) { alert('저장 실패: ' + err.message); }
 };
 
 document.getElementById('btnResetChars').onclick = () => {
-  if (!confirm('캐릭터 설정을 초기값으로 되돌릴까요?')) return;
+  if (!confirm('캐릭터 · 관계 설정을 초기값으로 되돌릴까요?')) return;
   localStorage.removeItem('char_npc');
   localStorage.removeItem('char_player');
-  pendingNPC = getNPC();
-  pendingPlayer = getPlayer();
-  fillCharForm();
-  render();
+  localStorage.removeItem('char_rel');
+  pendingNPC = getNPC(); pendingPlayer = getPlayer(); pendingRel = getRel();
+  fillCharForm(); render();
 };
 
 /* ============================================================
-   8. 서버 API 호출 (Render 백엔드로 전송)
+   7. OpenAI 호출 (관계 · 배경 포함)
    ============================================================ */
 async function callAI(userMessage) {
+  const apiKey = localStorage.getItem('openai_api_key');
   const model = localStorage.getItem('openai_model') || 'gpt-4o-mini';
+  if (!apiKey) { openModal(); return null; }
 
   const npc = getNPC();
   const player = getPlayer();
+  const rel = getRel();
 
-  let sys = `너는 "${npc.name}"이야. `;
-  if (npc.persona) sys += `캐릭터 설정: ${npc.persona} `;
-  sys += `지금 사용자("${player.name}")와 채팅 앱으로 대화하고 있어. `;
-  if (player.persona) sys += `사용자 설정: ${player.persona} `;
-  sys += `사용자의 말에 자연스러운 한국어로 답장해. 반드시 다음 형식으로만 답해: 한국어 원문|繁體中文翻譯. 다른 설명은 하지 마.`;
+  let sys = '';
+
+  // 角色
+  sys += `너는 "${npc.name}"이야. `;
+  if (npc.persona) sys += `[너의 성격/말투] ${npc.persona} `;
+
+  // 我
+  sys += `상대방은 "${player.name}"이야. `;
+  if (player.persona) sys += `[상대방 설정] ${player.persona} `;
+
+  // 关系与背景
+  if (rel.type || rel.summary || rel.story) {
+    sys += '\n[두 사람의 관계 및 배경]\n';
+    if (rel.type)    sys += `관계 유형: ${rel.type}\n`;
+    if (rel.summary) sys += `관계 요약: ${rel.summary}\n`;
+    if (rel.story)   sys += `배경 설정: ${rel.story}\n`;
+    sys += `위 관계와 배경에 맞는 말투, 호칭, 감정선을 유지하면서 대화해. `;
+  }
+
+  // 格式
+  sys += `\n지금 사용자와 채팅 앱으로 대화하고 있어. 사용자의 말에 자연스러운 한국어로 답장해. 반드시 다음 형식으로만 답해: 한국어 원문|繁體中文翻譯. 다른 설명은 하지 마.`;
 
   try {
-    const res = await fetch('/api/chat', {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + apiKey,
+        'OpenAI-Dangerous-Allow-Browser': 'true'
+      },
       body: JSON.stringify({
         model: model,
         messages: [
@@ -704,20 +695,17 @@ async function callAI(userMessage) {
           { role: 'user', content: userMessage }
         ],
         temperature: 0.9,
-        max_tokens: 200
+        max_tokens: 250
       })
     });
-
     const data = await res.json();
     if (!res.ok) {
-      const msg = (data.error && data.error.message) ? data.error.message : ('HTTP ' + res.status);
-      console.error('API 오류:', data);
+      const msg = data.error && data.error.message ? data.error.message : ('HTTP ' + res.status);
+      console.error('OpenAI 오류:', data);
       alert('API 오류: ' + msg);
       return '미안, 지금 답장 못 해 😢|抱歉，現在沒辦法回你 😢';
     }
-    if (data.choices && data.choices[0] && data.choices[0].message) {
-      return data.choices[0].message.content;
-    }
+    if (data.choices && data.choices[0] && data.choices[0].message) return data.choices[0].message.content;
     return '미안, 지금 답장 못 해 😢|抱歉，現在沒辦法回你 😢';
   } catch (err) {
     console.error('API 호출 실패:', err);
@@ -727,7 +715,7 @@ async function callAI(userMessage) {
 }
 
 /* ============================================================
-   9. 메시지 전송
+   8. 메시지 전송
    ============================================================ */
 async function send() {
   const inp = document.getElementById('inp');
@@ -737,14 +725,11 @@ async function send() {
   const isKr = /[\uAC00-\uD7AF]/.test(v);
   const playerMsg = { id:'u'+Date.now(), side:'player', time:nowTime(), status:'sent' };
   playerMsg[isKr ? 'kr' : 'zh'] = v;
-
   MESSAGES.push(playerMsg);
   inp.value = '';
   render();
 
-  isTyping = true;
-  render();
-
+  isTyping = true; render();
   const aiReplyRaw = await callAI(v);
   if (aiReplyRaw === null) { isTyping = false; render(); return; }
 
@@ -754,18 +739,15 @@ async function send() {
     kr = parts[0].trim();
     zh = parts[1] ? parts[1].trim() : '';
   }
-
   const lastPlayer = [...MESSAGES].reverse().find(m => m.side === 'player');
   if (lastPlayer) lastPlayer.status = 'read';
-
   MESSAGES.push({ id:'ai'+Date.now(), side:'npc', time:nowTime(), kr, zh });
-
   isTyping = false;
   render();
 }
 
 /* ============================================================
-   10. 이벤트
+   9. 이벤트
    ============================================================ */
 document.getElementById('tabKakao').onclick = () => {
   platform = 'kakao';
